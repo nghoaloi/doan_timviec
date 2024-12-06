@@ -79,10 +79,12 @@
                   </div>
                <?php
                   }else if(isset($_SESSION['UserType'])&&($_SESSION['UserType']=='Candidate')){
+
                 ?>
 
                 <?php
                   }else if(isset($_SESSION['UserType'])&&($_SESSION['UserType']=='Employer')){
+                    
                 ?>
 
                 <?php

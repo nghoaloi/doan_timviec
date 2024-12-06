@@ -7,15 +7,19 @@
       $email = $_POST['email'];
       $pass = $_POST['password'];
 
-      $hashed_password = password_verify($pass);
-      $user = checkuser($email, $hashed_password);
+      // $hashed_password = password_verify($pass);
+      $user = checkuser($email);
       if ($user !== null) {
+        if (password_verify($pass, $user['PasswordHash'])){
         $_SESSION['UserType'] = $user['UserType'];
         $_SESSION['FullName'] = $user['FullName']; // Lưu tên người dùng vào session
-        if ($user['UserType'] == 1) {
+        if ($user['UserType'] == 'Admin') {
             header('Location: ../index.php');
             exit();
-        } else if ($user['UserType'] == 0) {
+        } else if ($user['UserType'] == 'Employer') {
+            header('Location: ../index.php');
+            exit();
+        } else if ($user['UserType'] == 'Candidate') {
             header('Location: ../index.php');
             exit();
         } else {
@@ -25,6 +29,7 @@
         $txt_erro = "Email hoặc mật khẩu không tồn tại";
     }
     }
+  }
 ?>
 <!DOCTYPE php>
 <php lang="en">
@@ -132,6 +137,7 @@
         <p class="text-center mt-2">
             Bạn chưa có tài khoản? <a href="index?act=register_ntd" >Đăng ký</a>
         </p>
+        
       </form>
       </div>
     </div>

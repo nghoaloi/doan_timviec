@@ -1,9 +1,9 @@
 <?php
-function checkuser($email, $pass) {
+function checkuser($email) {
     $conn = connectdb();
-    $stmt = $conn->prepare("SELECT * FROM users WHERE Email = :email AND PasswordHash = :pass");
+    $stmt = $conn->prepare("SELECT * FROM users WHERE Email = :email");
     $stmt->bindParam(':email', $email);
-    $stmt->bindParam(':pass', $pass);
+    // $stmt->bindParam(':pass', $passHash);
     $stmt->execute();
 
     $stmt->setFetchMode(PDO::FETCH_ASSOC);

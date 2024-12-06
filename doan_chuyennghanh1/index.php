@@ -198,16 +198,11 @@ case 'company_edit':
         include "views/home.php";
     }
         include "views/footer.php";
-    } else if(isset($_SESSION['UserType'])&&($_SESSION['UserType']=='Candidate')){
+    } else if(isset($_SESSION['UserType'])&&($_SESSION['UserType']=='Employed')){
         include "views/header.php";
         if (isset($_GET['act'])){
             switch ($_GET['act']) {
-                case 'register_ntd':
-                    include "views/register_ntd.php";
-                    break;
-                case 'login':
-                    include "views/login_ntd.php";
-                    break;
+                
                 default:
                     include "views/home.php";
                     break;
