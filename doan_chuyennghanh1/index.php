@@ -257,26 +257,15 @@
         include "views/header.php";
         if (isset($_GET['act'])){
             switch ($_GET['act']) {
-                // case 'user':
-                //     include "views/user.php";
-                //     break;
-                // case 'register_ntd':
-                //     include "views/register_nguoitim.php";
-                //     break;
-                // case 'login':
-                //     include "views/login.php";
-                //     break;
-                // default:
-                //     include "views/home.php";
-                //     break;
+                
                 case 'home':
                     include "view/home_candidate.php";
                     break;
                 case 'joblist':
                     include "view/joblisting.php";
                     break;
-                    case '':
-                        # code...
+                    case 'profile':
+                        include "view/user.php";
                         break;
                 case 'thoat':
                     unset($_SESSION['UserType']);

@@ -80,6 +80,27 @@
                <?php
                   }else if(isset($_SESSION['UserType'])&&($_SESSION['UserType']=='Candidate')){
                 ?>
+                       <div class="main-menu">
+                    <nav class="d-none d-lg-block">
+                      <ul id="navigation">
+                        <li><a href="index.php?act=home">trang chủ</a></li>
+                        <li><a href="index.php?act=joblisting">công việc apply </a></li>
+                        <li><a href="index.php?act=profile">profile</a></li>
+
+                        <?php
+                          $ten = isset($_SESSION['FullName']) ? $_SESSION['FullName'] : '';
+                          echo '<li><a href="index.php?act=userinfo">'.$ten.'</a></li>
+                        <li><a href="index.php?act=thoat">Đăng xuất</a></li>';
+                        ?>  
+                      </ul>
+                                          
+                      </nav>
+                  </div>
+                <?php
+                  }else if(isset($_SESSION['UserType'])&&($_SESSION['UserType']=='Employer')){
+                   
+                ?>
+             
                   <div class="main-menu">
                     <nav class="d-none d-lg-block">
                       <ul id="navigation">
@@ -97,30 +118,11 @@
                       </nav>
                   </div>
                 <?php
-                  }else if(isset($_SESSION['UserType'])&&($_SESSION['UserType']=='Employer')){
-                   
-                ?>
-                  <div class="main-menu">
-                    <nav class="d-none d-lg-block">
-                      <ul id="navigation">
-                        <li><a href="index.php?act=home">trang chủ</a></li>
-                        <li><a href="index.php?act=joblisting">công việc hot </a></li>
-                        <li><a href="index.php?act=joblisting">đơn tuyển dụng gần đây</a></li>
-                        <?php
-                          $ten = isset($_SESSION['FullName']) ? $_SESSION['FullName'] : '';
-                          echo '<li><a href="index.php?act=userinfo">'.$ten.'</a></li>
-                        <li><a href="index.php?act=thoat">Đăng xuất</a></li>';
-                        ?>  
-                      </ul>
-                                          
-                      </nav>
-                  </div>
-                <?php
                   }else{
                 ?>
                   <!-- Header-btn -->
                   <div class="header-btn d-none f-right d-lg-block">
-                    <a href="views/register_nguoitim.php" class="btn head-btn1">Đăng Ký</a>
+                    <a href="views/register_ntd.php" class="btn head-btn1">Đăng Ký</a>
                     <a href="views/login.php" class="btn head-btn2">Đăng Nhập</a>
                   </div>
                 <?php
