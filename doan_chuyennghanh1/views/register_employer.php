@@ -8,6 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $password = $_POST['password'];
     $repassword = $_POST['repassword'];
+    $usertype = "Employer";
 
     // Kiểm tra các trường không được để trống
     if (empty($email)) {
@@ -25,11 +26,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             // Thêm người dùng mới
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-            $result = addUser_register($email, $hashed_password);
+            $result = addUser_register($email, $hashed_password,$usertype);
 
             if ($result) {
                 // Chuyển hướng tới trang đăng nhập sau khi đăng ký thành công
-                header('Location: login_ntd.php');
+                header('Location: login.php');
                 exit();
             } else {
                 $error_message = "Có lỗi xảy ra khi đăng ký tài khoản";
@@ -47,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FUNNY-JOB</title>
+    <title>đăng ký nhà tuyển dụng</title>
     <link rel="manifest" href="site.webmanifest" />
     <link
       rel="shortcut icon"
@@ -103,17 +104,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   <div class="main-menu">
                     <nav class="d-none d-lg-block">
                       <ul id="navigation">
-                        <li><a href="../index.php">Trang chủ</a></li>
+                        <li><a href="./index.php">Trang chủ</a></li>
                         <li><a href="job_listing.php">Tìm việc </a></li>
-                        <li><a href="index.php">Cho người tìm việc</a></li>
+                        <li><a href="register_nguoitim.php">Cho nhà người tìm việc</a></li>
                         
                       </ul>
                     </nav>
                   </div>
                   <!-- Header-btn -->
                   <div class="header-btn d-none f-right d-lg-block">
-                    <a href="register_ntd.php" class="btn head-btn1">Đăng Ký</a>
-                    <a href="login_ntd.php" class="btn head-btn2">Đăng Nhập</a>
+                    <a href="register_employer.php" class="btn head-btn1">Đăng Ký</a>
+                    <a href="login.php" class="btn head-btn2">Đăng Nhập</a>
                   </div>
 
                 </div>
@@ -131,7 +132,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <main>
     <div class="container d-flex justify-content-center align-items-center">
-    <form action="register_ntd.php" method="POST">
+    <form action="register_employer.php" method="POST">
     <h2 class="text-center">ĐĂNG KÝ TÀI KHOẢN</h2>
     <div class="mb-3">
         <label for="email" class="form-label">Email</label>
@@ -177,7 +178,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <input type="submit" class="btn btn-success" style="width: 100%;" name="register" value="Đăng ký">
     </div>
     <p class="text-center mt-2">
-        bạn đã có tài khoản? <a href="login_ntd.php">ĐĂNG NHẬP</a>
+        bạn đã có tài khoản? <a href="login.php">ĐĂNG NHẬP</a>
     </p>
       </form>
       </div>

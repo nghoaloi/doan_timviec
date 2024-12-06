@@ -23,11 +23,12 @@ function checkEmailExists($email) {
     $stmt->execute(); 
     return $stmt->fetch() !== false; 
 } 
-function addUser_register($email, $password) { 
+function addUser_register($email, $password,$usertype) { 
     $conn = connectdb(); 
-    $stmt = $conn->prepare("INSERT INTO users (Email, PasswordHash, UserType) VALUES (:email, :password, 'Employer')"); 
+    $stmt = $conn->prepare("INSERT INTO users (Email, PasswordHash, UserType) VALUES (:email, :password, :usertype)"); 
     $stmt->bindParam(':email', $email); 
     $stmt->bindParam(':password', $password); 
+    $stmt->bindParam(':usertype',$usertype);
     return $stmt->execute(); 
 }
 function addUser($email, $password, $fullname, $phone, $usertype, $status) {

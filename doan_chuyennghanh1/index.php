@@ -5,10 +5,12 @@
     include "model/user.php";
     include "model/company.php";
     include "model/job.php";
+    
     if(isset($_SESSION['UserType'])&&($_SESSION['UserType']=='Admin')){
         include "views/header.php";
     if (isset($_GET['act'])){
     switch ($_GET['act']) {
+        //xử lý quản lý user
         case 'user':
             include "views/user.php";
             break;
@@ -58,67 +60,67 @@
             break;
         
             
-// Xử lý thêm công ty
-case 'company':
-    include "views/company.php";
-    break;
-case 'company_add':
-    if (isset($_POST['addCompany']) && ($_POST['addCompany'])) {
-        $userID = $_POST['userID'];
-        $companyName = $_POST['companyName'];
-        $industry = $_POST['industry'];
-        $websiteURL = $_POST['websiteURL'];
-        $logoURL = $_POST['logoURL'];
-        $location = $_POST['location'];
-        $description = $_POST['description'];
-        $result = addCompany($userID, $companyName, $industry, $websiteURL, $logoURL, $location, $description);
-        if ($result) {
-            echo "<script>alert('Thêm công ty thành công!');</script>";
-        } else {
-            echo "<script>alert('Có lỗi xảy ra khi thêm công ty.');</script>";
-        }
-    }
-    $companies = getCompanies();
-    include "views/company.php";
-    break;
-case 'del_company':
-    if (isset($_GET['id']) && !empty($_GET['id'])) {
-        $id = $_GET['id'];
-        $result = delCompany($id);
-        if ($result) {
-            echo "<script>alert('Xóa công ty thành công!');</script>";
-        } else {
-            echo "<script>alert('Có lỗi xảy ra khi xóa công ty.');</script>";
-        }
-    }
-    $companies = getCompanies();
-    include "views/company.php";
-    break;
-case 'editform_company':
-    if (isset($_GET['id']) && !empty($_GET['id'])) {
-        $company = getCompanyByID($_GET['id']);
-    }
-    include "views/company_edit.php";
-    break;
-case 'company_edit':
-    if (isset($_POST['updateCompany']) && ($_POST['updateCompany'])) {
-        $companyID = $_POST['companyID'];
-        $companyName = $_POST['companyName'];
-        $industry = $_POST['industry'];
-        $websiteURL = $_POST['websiteURL'];
-        $logoURL = $_POST['logoURL'];
-        $location = $_POST['location'];
-        $description = $_POST['description'];
-        $result = updateCompany($companyID, $companyName, $industry, $websiteURL, $logoURL, $location, $description);
-        if ($result) {
-            echo "<script>alert('Cập nhật công ty thành công!');</script>";
-        } else {
-            echo "<script>alert('Có lỗi xảy ra khi cập nhật công ty.');</script>";
-        }
-    }
-    $companies = getCompanies();
-    include "views/company.php";
-    break;
+        // Xử lý thêm công ty
+        case 'company':
+            include "views/company.php";
+            break;
+        case 'company_add':
+            if (isset($_POST['addCompany']) && ($_POST['addCompany'])) {
+                $userID = $_POST['userID'];
+                $companyName = $_POST['companyName'];
+                $industry = $_POST['industry'];
+                $websiteURL = $_POST['websiteURL'];
+                $logoURL = $_POST['logoURL'];
+                $location = $_POST['location'];
+                $description = $_POST['description'];
+                $result = addCompany($userID, $companyName, $industry, $websiteURL, $logoURL, $location, $description);
+                if ($result) {
+                    echo "<script>alert('Thêm công ty thành công!');</script>";
+                } else {
+                    echo "<script>alert('Có lỗi xảy ra khi thêm công ty.');</script>";
+                }
+            }
+            $companies = getCompanies();
+            include "views/company.php";
+            break;
+        case 'del_company':
+            if (isset($_GET['id']) && !empty($_GET['id'])) {
+                $id = $_GET['id'];
+                $result = delCompany($id);
+                if ($result) {
+                    echo "<script>alert('Xóa công ty thành công!');</script>";
+                } else {
+                    echo "<script>alert('Có lỗi xảy ra khi xóa công ty.');</script>";
+                }
+            }
+            $companies = getCompanies();
+            include "views/company.php";
+            break;
+        case 'editform_company':
+            if (isset($_GET['id']) && !empty($_GET['id'])) {
+                $company = getCompanyByID($_GET['id']);
+            }
+            include "views/company_edit.php";
+            break;
+        case 'company_edit':
+            if (isset($_POST['updateCompany']) && ($_POST['updateCompany'])) {
+                $companyID = $_POST['companyID'];
+                $companyName = $_POST['companyName'];
+                $industry = $_POST['industry'];
+                $websiteURL = $_POST['websiteURL'];
+                $logoURL = $_POST['logoURL'];
+                $location = $_POST['location'];
+                $description = $_POST['description'];
+                $result = updateCompany($companyID, $companyName, $industry, $websiteURL, $logoURL, $location, $description);
+                if ($result) {
+                    echo "<script>alert('Cập nhật công ty thành công!');</script>";
+                } else {
+                    echo "<script>alert('Có lỗi xảy ra khi cập nhật công ty.');</script>";
+                }
+            }
+            $companies = getCompanies();
+            include "views/company.php";
+            break;
 
 
         // Công việc
@@ -198,11 +200,45 @@ case 'company_edit':
         include "views/home.php";
     }
         include "views/footer.php";
-    } else if(isset($_SESSION['UserType'])&&($_SESSION['UserType']=='Employed')){
+    } 
+    else if(isset($_SESSION['UserType'])&&($_SESSION['UserType']=='Employer')){
         include "views/header.php";
         if (isset($_GET['act'])){
             switch ($_GET['act']) {
-                
+                // sử lý các view của user
+                case 'home':
+                    include "view/home_employer.php";
+                    break;
+                case 'dangbai':
+                    if (isset($_POST['addJob']) && ($_POST['addJob'])) {
+                        $companyID = $_POST['companyID'];
+                        $jobTitle = $_POST['jobTitle'];
+                        $jobDescription = $_POST['jobDescription'];
+                        $requirements = $_POST['requirements'];
+                        $salaryRange = $_POST['salaryRange'];
+                        $location = $_POST['location'];
+                        $employmentType = $_POST['employmentType'];
+                        $expiryDate = $_POST['expiryDate'];
+                        $result = addJob($companyID, $jobTitle, $jobDescription, $requirements, $salaryRange, $location, $employmentType, $expiryDate);
+                        if ($result) {
+                            echo "<script>alert('Thêm công việc thành công!');</script>";
+                        } else {
+                            echo "<script>alert('Có lỗi xảy ra khi thêm công việc.');</script>";
+                        }
+                    }
+                    $jobs = getJobs();
+                    include "views/job.php";
+                    break;
+                case 'dangquangcao':
+                    # code...
+                    break;
+                case 'quanglydon':
+                    # code...
+                    break;
+                case 'thoat':
+                    unset($_SESSION['UserType']);
+                    header('location:index.php');  
+                    break;
                 default:
                     include "views/home.php";
                     break;
@@ -211,7 +247,9 @@ case 'company_edit':
                 include "views/home.php";
             }
                 include "views/footer.php";
-    } else if(isset($_SESSION['UserType'])&&($_SESSION['UserType']=='Candidate')){
+    }
+     
+    else if(isset($_SESSION['UserType'])&&($_SESSION['UserType']=='Candidate')){
         include "views/header.php";
         include "views/home.php";
         include "views/footer.php";
@@ -219,14 +257,30 @@ case 'company_edit':
         include "views/header.php";
         if (isset($_GET['act'])){
             switch ($_GET['act']) {
-                case 'user':
-                    include "views/user.php";
+                // case 'user':
+                //     include "views/user.php";
+                //     break;
+                // case 'register_ntd':
+                //     include "views/register_nguoitim.php";
+                //     break;
+                // case 'login':
+                //     include "views/login.php";
+                //     break;
+                // default:
+                //     include "views/home.php";
+                //     break;
+                case 'home':
+                    include "view/home_candidate.php";
                     break;
-                case 'register_ntd':
-                    include "views/register_ntd.php";
+                case 'joblist':
+                    include "view/joblisting.php";
                     break;
-                case 'login':
-                    include "views/login_ntd.php";
+                    case '':
+                        # code...
+                        break;
+                case 'thoat':
+                    unset($_SESSION['UserType']);
+                    header('location:index.php');  
                     break;
                 default:
                     include "views/home.php";

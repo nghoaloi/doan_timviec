@@ -1,43 +1,53 @@
 <?php
-    session_start();
-    ob_start();
-    include "../model/connectdb.php";
-    include "../model/user.php";
-    if (isset($_POST['login']) && ($_POST['login'])){
-      $email = $_POST['email'];
-      $pass = $_POST['password'];
+session_start();
+ob_start();
+include "../model/connectdb.php";
+include "../model/user.php";
 
-      // $hashed_password = password_verify($pass);
-      $user = checkuser($email);
-      if ($user !== null) {
-        if (password_verify($pass, $user['PasswordHash'])){
-        $_SESSION['UserType'] = $user['UserType'];
-        $_SESSION['FullName'] = $user['FullName']; // Lưu tên người dùng vào session
-        if ($user['UserType'] == 'Admin') {
-            header('Location: ../index.php');
-            exit();
-        } else if ($user['UserType'] == 'Employer') {
-            header('Location: ../index.php');
-            exit();
-        } else if ($user['UserType'] == 'Candidate') {
-            header('Location: ../index.php');
-            exit();
-        } else {
-            $txt_erro = "Email hoặc mật khẩu không tồn tại";
-        }
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $repassword = $_POST['repassword'];
+    $usertype = "Candidate";
+    // Kiểm tra các trường không được để trống
+    if (empty($email)) {
+        $error_message = "Email không được để trống";
+    } elseif (empty($password)) {
+        $error_message = "Mật khẩu không được để trống";
+    } elseif (empty($repassword)) {
+        $error_message = "Nhập lại mật khẩu không được để trống";
+    } elseif ($password !== $repassword) {
+        $error_message = "Mật khẩu và Nhập lại mật khẩu không khớp";
     } else {
-        $txt_erro = "Email hoặc mật khẩu không tồn tại";
+        // Kiểm tra xem email đã tồn tại chưa
+        if (checkEmailExists($email)) {
+            $error_message = "Email đã tồn tại";
+        } else {
+            // Thêm người dùng mới
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+            $result = addUser_register($email, $hashed_password,$usertype);
+
+            if ($result) {
+                // Chuyển hướng tới trang đăng nhập sau khi đăng ký thành công
+                header('Location: login.php');
+                exit();
+            } else {
+                $error_message = "Có lỗi xảy ra khi đăng ký tài khoản";
+            }
+        }
     }
-    }
-  }
+}
+
 ?>
+
+
 <!DOCTYPE php>
 <php lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FUNNY-JOB</title>
+    <title>đăng ký người dùng</title>
     <link rel="manifest" href="site.webmanifest" />
     <link
       rel="shortcut icon"
@@ -61,7 +71,7 @@
   </head>
   <body>
     <!-- Preloader Start -->
-    <div id="preloader-active">
+    <!-- <div id="preloader-active">
       <div class="preloader d-flex align-items-center justify-content-center">
         <div class="preloader-inner position-relative">
           <div class="preloader-circle"></div>
@@ -70,7 +80,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <!-- Preloader Start -->
     <header>
@@ -95,15 +105,15 @@
                       <ul id="navigation">
                         <li><a href="../index.php">Trang chủ</a></li>
                         <li><a href="job_listing.php">Tìm việc </a></li>
-                        <li><a href="index.php">Cho người tìm việc</a></li>
+                        <li><a href="register_employer.php">Cho nhà tuyển dụng</a></li>
                         
                       </ul>
                     </nav>
                   </div>
                   <!-- Header-btn -->
                   <div class="header-btn d-none f-right d-lg-block">
-                    <a href="register_ntd.php" class="btn head-btn1">Đăng Ký</a>
-                    <a href="login_ntd.php" class="btn head-btn2">Đăng Nhập</a>
+                    <a href="register_nguoitim.php" class="btn head-btn1">Đăng Ký</a>
+                    <a href="login.php" class="btn head-btn2">Đăng Nhập</a>
                   </div>
 
                 </div>
@@ -121,23 +131,54 @@
 
 <main>
     <div class="container d-flex justify-content-center align-items-center">
-      <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-        <h2 class="text-center">ĐĂNG NHẬP TÀI KHOẢN</h2>
+    <form action="register_nguoitim.php" method="POST">
+    <h2 class="text-center">ĐĂNG KÝ TÀI KHOẢN</h2>
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input class="form-control" type="text" id="email" name="email" placeholder="Nhập Email">
+        <div id="emailError" style="color: red; display: none;">Email không được để trống</div>
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Mật khẩu</label>
+        <input class="form-control" type="password" id="password" name="password" placeholder="Nhập mật khẩu">
+        <div id="passwordError" style="color: red; display: none;">Mật khẩu không được để trống</div>
+    </div>
+    <div class="mb-3">
+        <label for="repassword" class="form-label">Nhập lại mật khẩu</label>
+        <input class="form-control" type="password" id="repassword" name="repassword" placeholder="Nhập lại mật khẩu">
+        <div id="repasswordError" style="color: red; display: none;">Mật khẩu không được để trống</div>
+    </div>
+    
+
+        <!-- <h2 class="text-center"> Thông tin công ty</h2>
         <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input class="form-control" type="text" id="email" name="email" placeholder="Nhập Email">
+            <label for="tentc" class="form-label">Tên công ty</label>
+            <input class="form-control" type="text" id="tenct" placeholder="Nhập tên công ty">
+            <div id="repasswordError" style="color: red; display: none;">Tên công ty không dược để trống </div>
         </div>
         <div class="mb-3">
-            <label for="password" class="form-label">Mật khẩu</label>
-            <input class="form-control" type="password" id="password" name="password" placeholder="Nhập mật khẩu">
+            <label for="sonhanvien" class="form-label">Số nhân viên</label>
+            <input class="form-control" type="text" id="sonhanvien" placeholder="Nhập số lượng nhân viên">
+            <div id="repasswordError" style="color: red; display: none;">Số lượng nhân viên không được để trống </div>
         </div>
+        <label for="địa chỉ" class="form-label">Địa chỉ</label>
+        <div class="mb-3">
+            <select display: inline-block name="quocgia" id="" >
+                  <option value="viecnam" >Việt Nam</option>
+            </select>
+            <select display: inline-block name="tinh" id="" >
+                  <option value="" >Chọn tỉnh/ Thành phố</option>
+            </select>
+            <select display: inline-block name="quan" id="" >
+                  <option value="" >chọn quận huyện</option>
+            </select>
+        </div> -->
         <div>
-            <input type="submit" class="btn btn-success" style="width: 100%;" name="login" value="Đăng nhập">
-        </div>
-        <p class="text-center mt-2">
-            Bạn chưa có tài khoản? <a href="index?act=register_ntd" >Đăng ký</a>
-        </p>
-        
+        <input type="submit" class="btn btn-success" style="width: 100%;" name="register" value="Đăng ký">
+    </div>
+    <p class="text-center mt-2">
+        bạn đã có tài khoản? <a href="login.php">ĐĂNG NHẬP</a>
+    </p>
       </form>
       </div>
     </div>
@@ -180,7 +221,7 @@
                             <div class="footer-tittle">
                                 <h4>Liên kết quan trọng</h4>
                                 <ul>
-                                    <li><a href="#"> Xem dự án</a></li>
+                                    <li><a href="#">Xem dự án</a></li>
                                     <li><a href="#">Liên hệ với chúng tôi</a></li>
                                     <li><a href="#">Lời chứng thực</a></li>
                                     <li><a href="#">quyền sở hữu</a></li>
