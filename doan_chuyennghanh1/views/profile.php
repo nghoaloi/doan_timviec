@@ -1,6 +1,6 @@
 <?php
    $userid =  $_SESSION['UserID'];     
-   $ten = $_SESSION['FullName'];
+   $user = getUserByID($userid);
 ?>
 <section class="mt-5 pt-5">
     <div class="container-fluid py-5 mb-5 mt-5">
@@ -19,10 +19,7 @@
                     <br>
                     <label for="status" class="mb-1">Trạng thái:&nbsp;&nbsp;&nbsp;<?php echo htmlspecialchars($user['UserStatus'] ?? ''); ?></label>
                     <br>
-                    <?php
-                        $userid = $_SESSION['UserID'];  
-                        $user = getUserByID($userid);
-                    ?>
+                    
 
                     <a href="index.php?act=mo_updateuser_foruser&id=<?php echo $user['UserID']; ?>" class="btn btn-warning btn-sm">Sửa</a> 
                     </form>
