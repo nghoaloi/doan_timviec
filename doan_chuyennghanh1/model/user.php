@@ -140,6 +140,12 @@ function FindUserByID($id){
     $stmt->execute();
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
+function getUsersByUserType() {
+    $conn = connectdb();
+    $stmt = $conn->prepare("SELECT UserID, FullName FROM users WHERE UserType = 'Employer'");
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 
 
 ?>

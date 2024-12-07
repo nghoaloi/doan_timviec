@@ -190,13 +190,16 @@
             break;
             case 'company_add':
                 if (isset($_POST['addCompany']) && ($_POST['addCompany'])) {
-                    $userID = $_POST['userID'];
-                    $companyName = $_POST['companyName'];
-                    $industry = $_POST['industry'];
-                    $websiteURL = $_POST['websiteURL'];
-                    $location = $_POST['location'];
-                    $description = $_POST['description'];
+                    $userID = htmlspecialchars($_POST['userID']);
+                    $companyName = htmlspecialchars($_POST['companyName']);
+                    $industry = htmlspecialchars($_POST['industry']);
+                    $websiteURL = htmlspecialchars($_POST['websiteURL']);
+                    $location = htmlspecialchars($_POST['location']);
+                    $description = htmlspecialchars($_POST['description']);
                     
+                    // Khởi tạo biến $uploadOk
+                    $uploadOk = 1;
+            
                     // Xử lý ảnh logo
                     $logoURL = '';
                     if (isset($_FILES['logoURL']) && $_FILES['logoURL']['error'] === UPLOAD_ERR_OK) {
@@ -245,7 +248,7 @@
                     }
                 }
                 $companies = getCompanies();
-                include "admin/view/company.php";
+                include "views/company.php";
                 break;
             
         case 'del_company':

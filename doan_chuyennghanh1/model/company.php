@@ -73,5 +73,11 @@ function updateCompany($companyID, $userID, $companyName, $industry, $websiteURL
     return $stmt->execute();
 }
 
+function getCompaniesForJob() {
+    $conn = connectdb();
+    $stmt = $conn->prepare("SELECT CompanyID, CompanyName FROM companies");
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 
 ?>
