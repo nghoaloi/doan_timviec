@@ -24,7 +24,7 @@
                         $user = getUserByID($userid);
                     ?>
 
-                    <a href="index.php?act=mo_updateuser_foruser&id='.$user['UserID'].'" class="btn btn-warning btn-sm">Sửa</a> 
+                    <a href="index.php?act=mo_updateuser_foruser&id=<?php echo $user['UserID']; ?>" class="btn btn-warning btn-sm">Sửa</a> 
                     </form>
             </div>
 
