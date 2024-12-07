@@ -24,10 +24,10 @@
 
             <!-- Mục hiển thị người dùng -->
             <div class="col-md-4">
-                <h1>ảnh</h1>
+                ảnh đại diện <br>
                 <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
                     <table class="table table-bordered mt-2">
-                        
+                        <img src="upload" alt="">
                     </table>
                 </div>
             </div>

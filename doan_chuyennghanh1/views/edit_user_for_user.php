@@ -43,9 +43,7 @@ if (isset($user)) {
                     <label for="phone" class="form-label">Số điện thoại:</label>
                     <input type="tel" name="phone" id="phone" class="form-control" value="<?php echo $phone; ?>">
                 </div>
-                
-                
-                
+
                 <div class="mb-3">
                     <label for="profilePictureURL" class="form-label">Hình đại diện:</label>
                     <div class="d-flex align-items-center">
@@ -74,7 +72,8 @@ if (isset($user)) {
                     <select name="gender" id="gender" class="form-select">
                         <option value="Male" <?php echo $gender == 'Male' ? 'selected' : ''; ?>>Nam</option>
                         <option value="Female" <?php echo $gender == 'Female' ? 'selected' : ''; ?>>Nữ</option>
-                        </select>
+                        <option value="Other" <?php echo $gender == 'Other' ? 'selected' : ''; ?>>Khác</option>
+                    </select>
                 </div>
 
                 <div class="mb-3">
