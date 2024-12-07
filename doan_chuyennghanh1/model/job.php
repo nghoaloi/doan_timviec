@@ -14,8 +14,7 @@
 // Thêm công việc mới
 function addJob($companyID, $jobTitle, $jobDescription, $requirements, $salaryRange, $location, $employmentType, $expiryDate) {
     $conn = connectdb();
-    $stmt = $conn->prepare("INSERT INTO jobs (CompanyID, JobTitle, JobDescription, Requirements, SalaryRange, Location, EmploymentType, PostedDate, ExpiryDate) 
-                            VALUES (:companyID, :jobTitle, :jobDescription, :requirements, :salaryRange, :location, :employmentType, CURRENT_TIMESTAMP, :expiryDate)");
+    $stmt = $conn->prepare("INSERT INTO jobs (CompanyID, JobTitle, JobDescription, Requirements, SalaryRange, Location, EmploymentType, ExpiryDate) VALUES (:companyID, :jobTitle, :jobDescription, :requirements, :salaryRange, :location, :employmentType, :expiryDate)");
     $stmt->bindParam(':companyID', $companyID);
     $stmt->bindParam(':jobTitle', $jobTitle);
     $stmt->bindParam(':jobDescription', $jobDescription);
@@ -27,13 +26,20 @@ function addJob($companyID, $jobTitle, $jobDescription, $requirements, $salaryRa
     return $stmt->execute();
 }
 
+
 // Lấy danh sách tất cả các công việc
 function getJobs() {
     $conn = connectdb();
-    $stmt = $conn->prepare("SELECT * FROM jobs");
+    // Thực hiện join giữa bảng jobs và bảng companies để lấy tên công ty
+    $stmt = $conn->prepare("
+        SELECT jobs.*, companies.CompanyName 
+        FROM jobs 
+        JOIN companies ON jobs.CompanyID = companies.CompanyID
+    ");
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
 
 // Lấy thông tin công việc theo ID
 function getJobByID($jobID) {
