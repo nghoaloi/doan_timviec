@@ -9,26 +9,21 @@
             <!-- Mục nhập -->
             <div class="col-md-4">
                 <form action="index.php?act=profile" method="post" enctype="multipart/form-data" class="d-flex flex-column">
-                    <label for="fullname" class="mb-1">Họ và tên:</label>
-                    
-                    
-                    <label for="email" class="mb-1">Email:</label>
-                    
-                    
-                    <label for="password" class="mb-1">Mật khẩu:</label>
-                    
-                    
-                    <label for="number" class="mb-1">Số điện thoại:</label>
-                   
-                    
-                    <label for="status" class="mb-1">Trạng thái:</label>
+                    <label for="fullname" class="mb-1">Họ và tên:&nbsp;&nbsp;&nbsp;<?php echo htmlspecialchars($user['FullName'] ?? ''); ?></label>
+                    <br>
+                    <label for="email" class="mb-1">Email:&nbsp;&nbsp;&nbsp;<?php echo htmlspecialchars($user['Email'] ?? ''); ?></label>
+                    <br>
+                    <label for="number" class="mb-1">Số điện thoại:&nbsp;&nbsp;&nbsp;<?php echo htmlspecialchars($user['PhoneNumber'] ?? ''); ?></label>
+                    <br>
+                    <label for="status" class="mb-1">Trạng thái:&nbsp;&nbsp;&nbsp;<?php echo htmlspecialchars($user['UserStatus'] ?? ''); ?></label>
+                    <br>
                     
                     <input type="submit" name="updateuser" value="sửa đổi thông tin" class="btn btn-primary">
                 </form>
             </div>
 
             <!-- Mục hiển thị người dùng -->
-            <div class="col-md-8">
+            <div class="col-md-4">
                 <h1>ảnh</h1>
                 <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
                     <table class="table table-bordered mt-2">
