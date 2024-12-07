@@ -13,6 +13,8 @@
         if (password_verify($pass, $user['PasswordHash'])){
         $_SESSION['UserType'] = $user['UserType'];
         $_SESSION['FullName'] = $user['FullName']; // Lưu tên người dùng vào session
+        $_SESSION['UserID']= $user['UserID'];
+        
         if ($user['UserType'] == 'Admin') {
             header('Location: ../index.php');
             exit();

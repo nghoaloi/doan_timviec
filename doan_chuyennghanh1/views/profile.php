@@ -1,10 +1,14 @@
+<?php
+    $usreid =  $_SESSION['UserID'];
+    $user = FindUserByID($usreid);
+?>
 <section class="mt-5 pt-5">
     <div class="container-fluid py-5 mb-5 mt-5">
         <h2>QUẢN LÝ NGƯỜI DÙNG</h2>
         <div class="row">
             <!-- Mục nhập -->
             <div class="col-md-4">
-                <form action="index.php?act=user_add" method="post" enctype="multipart/form-data" class="d-flex flex-column">
+                <form action="index.php?act=profile" method="post" enctype="multipart/form-data" class="d-flex flex-column">
                     <label for="fullname" class="mb-1">Họ và tên:</label>
                     <input type="text" name="fullname" id="fullname" class="mb-3 form-control" required>
                     
@@ -51,32 +55,6 @@
                                 <th scope="col">Hành động</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <?php
-                            // include "user.php";
-                            $users = getUsers();
-                            if (isset($users) && count($users) > 0) {
-                                $i = 1;
-                                foreach ($users as $user) {
-                                    echo '<tr>
-                                            <th scope="row">'.$i.'</th>
-                                            <td>'.$user['FullName'].'</td>
-                                            <td>'.$user['Email'].'</td>
-                                            <td>'.$user['PhoneNumber'].'</td>
-                                            <td>'.$user['UserType'].'</td>
-                                            <td>'.$user['UserStatus'].'</td>
-                                            <td>
-                                                <a href="index.php?act=editform_user&id='.$user['UserID'].'" class="btn btn-warning btn-sm">Sửa</a> 
-                                                <a href="index.php?act=del_user&id='.$user['UserID'].'" class="btn btn-danger btn-sm">Xóa</a>
-                                            </td>
-                                        </tr>';
-                                    $i++;
-                                }
-                            } else {
-                                echo '<tr><td colspan="7" class="text-center">Không có người dùng nào.</td></tr>';
-                            }
-                            ?>
-                        </tbody>
                     </table>
                 </div>
             </div>

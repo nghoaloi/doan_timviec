@@ -207,9 +207,11 @@
             switch ($_GET['act']) {
                 // sử lý các view của user
                 case 'home':
-                    include "view/home_employer.php";
+                    
+                    include "views/home_employer.php";
                     break;
                 case 'dangbai':
+                    
                     if (isset($_POST['addJob']) && ($_POST['addJob'])) {
                         $companyID = $_POST['companyID'];
                         $jobTitle = $_POST['jobTitle'];
@@ -230,12 +232,15 @@
                     include "views/job.php";
                     break;
                 case 'dangquangcao':
+                    
                     # code...
                     break;
                 case 'quanglydon':
+                   
                     # code...
                     break;
                 case 'thoat':
+                    
                     unset($_SESSION['UserType']);
                     header('location:index.php');  
                     break;
@@ -249,24 +254,27 @@
                 include "views/footer.php";
     }
      
-    else if(isset($_SESSION['UserType'])&&($_SESSION['UserType']=='Candidate')){
+    else if(isset($_SESSION['UserType'])&&($_SESSION['UserType']=='Candidate ')){
         include "views/header.php";
         include "views/home.php";
         include "views/footer.php";
     }else {
         include "views/header.php";
         if (isset($_GET['act'])){
+            
             switch ($_GET['act']) {
-                
                 case 'home':
-                    include "view/home_candidate.php";
+                    
+                    include "views/home_candidate.php";
                     break;
                 case 'joblist':
-                    include "view/joblisting.php";
+                    
+                    include "views/joblisting.php";
                     break;
-                    case 'profile':
-                        include "view/user.php";
-                        break;
+                case 'profile':
+                    $_SESSION['UserID'];
+                    include "views/profile.php";
+                    break;
                 case 'thoat':
                     unset($_SESSION['UserType']);
                     header('location:index.php');  
