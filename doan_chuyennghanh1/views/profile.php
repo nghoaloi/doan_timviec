@@ -1,6 +1,6 @@
 <?php
-    $usreid =  $_SESSION['UserID'];
-    $user = FindUserByID($usreid);
+   $userid =  $_SESSION['UserID'];     
+   $ten = $_SESSION['FullName'];
 ?>
 <section class="mt-5 pt-5">
     <div class="container-fluid py-5 mb-5 mt-5">
@@ -8,7 +8,9 @@
         <div class="row">
             <!-- Mục nhập -->
             <div class="col-md-4">
-                <form action="index.php?act=profile" method="post" enctype="multipart/form-data" class="d-flex flex-column">
+                <form action="index.php?act=updateuser_foruser" method="post" enctype="multipart/form-data" class="d-flex flex-column">
+                    <input type="hidden" name="userid" value="<?php echo $userid; ?>">  
+
                     <label for="fullname" class="mb-1">Họ và tên:&nbsp;&nbsp;&nbsp;<?php echo htmlspecialchars($user['FullName'] ?? ''); ?></label>
                     <br>
                     <label for="email" class="mb-1">Email:&nbsp;&nbsp;&nbsp;<?php echo htmlspecialchars($user['Email'] ?? ''); ?></label>
@@ -17,9 +19,13 @@
                     <br>
                     <label for="status" class="mb-1">Trạng thái:&nbsp;&nbsp;&nbsp;<?php echo htmlspecialchars($user['UserStatus'] ?? ''); ?></label>
                     <br>
-                    
-                    <input type="submit" name="updateuser" value="sửa đổi thông tin" class="btn btn-primary">
-                </form>
+                    <?php
+                        $userid = $_SESSION['UserID'];  
+                        $user = getUserByID($userid);
+                    ?>
+
+                    <a href="index.php?act=mo_updateuser_foruser&id='.$user['UserID'].'" class="btn btn-warning btn-sm">Sửa</a> 
+                    </form>
             </div>
 
             <!-- Mục hiển thị người dùng -->

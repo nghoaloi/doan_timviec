@@ -125,7 +125,34 @@ function updateUser($userID, $email, $password, $fullname, $phone, $usertype, $s
     return $stmt->execute();
 }
 
+function updateUser_foruser($email,$hashed_password,$fullname,$phone,$profilePictureURL,$address,$dateOfBirth,$gender,$bio){
+    $conn = connectdb();
+    
+    // Kiểm tra và băm mật khẩu nếu được cung cấp
+    if (!empty($password)) {
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    } else {
+        // Lấy mật khẩu hiện tại từ cơ sở dữ liệu nếu không có mật khẩu mới
+        $stmt = $conn->prepare("SELECT PasswordHash FROM users WHERE UserID = :userID");
+        $stmt->bindParam(':userID', $userID);
+        $stmt->execute();
+        $hashed_password = $stmt->fetchColumn();
+    }
 
+    $stmt = $conn->prepare("UPDATE users SET Email = :email, PasswordHash = :password, FullName = :fullname, PhoneNumber = :phone, ProfilePictureURL = :profilePictureURL, Address = :address, DateOfBirth = :dateOfBirth, Gender = :gender, Bio = :bio WHERE UserID = :userID");
+    $stmt->bindParam(':userID', $userID);
+    $stmt->bindParam(':email', $email);
+    $stmt->bindParam(':password', $hashed_password);
+    $stmt->bindParam(':fullname', $fullname);
+    $stmt->bindParam(':phone', $phone);
+    $stmt->bindParam(':profilePictureURL', $profilePictureURL);
+    $stmt->bindParam(':address', $address);
+    $stmt->bindParam(':dateOfBirth', $dateOfBirth);
+    $stmt->bindParam(':gender', $gender);
+    $stmt->bindParam(':bio', $bio);
+
+    return $stmt->execute();
+}
 
 function getUserByID($UserID) {
     $conn = connectdb();
@@ -136,7 +163,7 @@ function getUserByID($UserID) {
 }
 function FindUserByID($id){
     $conn = connectdb();
-    $stmt = $conn->prepare("SELECT UserID, FullName, Email, PhoneNumber,UserStatus FROM users WHERE UserID = :id");
+    $stmt = $conn->prepare("SELECT UserID, FullName, Email, PhoneNumber,UserStatus,ProfilePictureURL,Address,Gender,Bio,DateOfBirth FROM users WHERE UserID = :id");
     $stmt->bindParam(':id', $id, PDO::PARAM_INT); // Gán giá trị cho tham số truy vấn
     $stmt->execute();
     return $stmt->fetch(PDO::FETCH_ASSOC);

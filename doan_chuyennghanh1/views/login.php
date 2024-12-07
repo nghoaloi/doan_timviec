@@ -1,8 +1,12 @@
 <?php
+   if (session_status() === PHP_SESSION_NONE) {
     session_start();
     ob_start();
-    include "../model/connectdb.php";
-    include "../model/user.php";
+    
+  }
+    include_once "../model/connectdb.php";
+    include_once "../model/user.php";
+
     if (isset($_POST['login']) && ($_POST['login'])){
       $email = $_POST['email'];
       $pass = $_POST['password'];
@@ -15,6 +19,10 @@
         $_SESSION['FullName'] = $user['FullName']; // Lưu tên người dùng vào session
         $_SESSION['UserID']= $user['UserID'];
         $_SESSION['UserStatus']= $user['UserStatus'];
+        $_SESSION['ProfilePictureURL']= $user['ProfilePictureURL'];   
+        $_SESSION['DateOfBirth']= $user['DateOfBirth']; 
+        $_SESSION['Address']= $user['Address']; 
+        $_SESSION['Gender']= $user['Gender']; 
         
         if ($user['UserType'] == 'Admin') {
             header('Location: ../index.php');
