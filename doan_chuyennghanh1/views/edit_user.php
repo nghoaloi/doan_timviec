@@ -21,6 +21,7 @@ if (isset($user)) {
         <div class="col-md-8 offset-md-2">
             <form action="index.php?act=user_update" method="post" enctype="multipart/form-data" class="card p-4">
                 <input type="hidden" name="userid" value="<?php echo $userID; ?>">
+                <input type="hidden" name="currentPassword" value="<?php echo $user['PasswordHash']; ?>">
                 <input type="hidden" name="currentProfilePictureURL" value="<?php echo $profilePictureURL; ?>">
 
                 <div class="mb-3">
@@ -82,7 +83,7 @@ if (isset($user)) {
                     <textarea name="bio" id="bio" rows="4" class="form-control"><?php echo $bio; ?></textarea>
                 </div>
 
-                <button type="submit" name="updateuser" class="btn btn-primary">Cập nhật</button>
+                <input type="submit" name="updateuser" class="btn btn-primary" value="Cập nhật">
             </form>
         </div>
     </div>
@@ -115,7 +116,6 @@ async function validateForm() {
     return true; // Cho phép form gửi đi
 }
 
-
 document.getElementById('changePictureButton').addEventListener('click', function () {
     document.getElementById('profilePictureInput').click(); // Mở cửa sổ chọn tệp
 });
@@ -132,7 +132,6 @@ document.getElementById('profilePictureInput').addEventListener('change', functi
 });
 </script>
 
-</script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

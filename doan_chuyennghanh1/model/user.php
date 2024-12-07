@@ -93,7 +93,7 @@ function del_user($id) {
     return $stmt->execute();
 }
 
-function updateUser($userID, $email, $password, $fullname, $phone, $usertype, $status, $profilePictureURL = null, $address = null, $dateOfBirth = null, $gender = null, $bio = null) {
+function updateUser($userID, $email, $password, $fullname, $phone, $usertype, $status, $profilePictureURL, $address, $dateOfBirth, $gender, $bio) {
     $conn = connectdb();
 
     // Kiểm tra và băm mật khẩu nếu được cung cấp
@@ -124,6 +124,8 @@ function updateUser($userID, $email, $password, $fullname, $phone, $usertype, $s
 
     return $stmt->execute();
 }
+
+
 
 function getUserByID($UserID) {
     $conn = connectdb();
