@@ -1,6 +1,5 @@
 <?php
-// Kiểm tra 
-
+// Kiểm tra nếu người dùng tồn tại
 if (isset($user)) {
     $userID_user = $user['UserID'];
     $fullName_user = $user['FullName'];  
@@ -34,7 +33,12 @@ if (isset($user)) {
                 </div>
 
                 <div class="mb-3">
-                    <label for="password" class="form-label">Mật khẩu :</label>
+                    <label for="currentPassword" class="form-label">Mật khẩu hiện tại:</label>
+                    <input type="password" name="currentPassword" id="currentPassword" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="password" class="form-label">Mật khẩu mới:</label>
                     <input type="password" name="password" id="password" class="form-control">
                 </div>
 
@@ -80,14 +84,24 @@ if (isset($user)) {
                     <textarea name="bio" id="bio" rows="4" class="form-control"><?php echo $bio_user; ?></textarea>
                 </div>
 
-                <input type="submit" name="updateuser_foruser" value="cập nhật" class="btn btn-primary">
+                <input type="submit" name="updateuser_foruser" value="Cập nhật" class="btn btn-primary">
             </form>
         </div>
     </div>
 </div>
 
 <script>
-
+async function checkEmailExists(email) {
+    const response = await fetch('index.php?act=user_add', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: 'action=check_email&email=' + encodeURIComponent(email),
+    });
+    const result = await response.text();
+    return result === 'exists';
+}
 
 async function validateForm() {
     const email = document.getElementById('email').value;
@@ -103,10 +117,10 @@ async function validateForm() {
     return true; // Cho phép form gửi đi
 }
 
-
 document.getElementById('changePictureButton').addEventListener('click', function () {
     document.getElementById('profilePictureInput').click(); // Mở cửa sổ chọn tệp
 });
+
 document.getElementById('profilePictureInput').addEventListener('change', function () {
     const file = this.files[0];
     if (file) {
@@ -118,8 +132,6 @@ document.getElementById('profilePictureInput').addEventListener('change', functi
         reader.readAsDataURL(file);
     }
 });
-</script>
-
 </script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 </body>

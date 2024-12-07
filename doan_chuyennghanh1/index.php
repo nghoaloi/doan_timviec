@@ -110,8 +110,7 @@
                         $email = htmlspecialchars($_POST['email']);
                         $fullname = htmlspecialchars($_POST['fullname']);
                         $phone = htmlspecialchars($_POST['phone']);
-                        $usertype = htmlspecialchars($_POST['usertype']);
-                        $status = htmlspecialchars($_POST['status']);
+                        // $status = htmlspecialchars($_POST['status']);
                         $address = htmlspecialchars($_POST['address']);
                         $dateOfBirth = htmlspecialchars($_POST['dateOfBirth']);
                         $gender = htmlspecialchars($_POST['gender']);
@@ -170,7 +169,7 @@
                         }
                 
                         // Cập nhật dữ liệu người dùng vào cơ sở dữ liệu
-                        $result = updateUser($userID, $email, $password, $fullname, $phone, $usertype, $status, $profilePictureURL, $address, $dateOfBirth, $gender, $bio);
+                        $result = updateUser($userID, $email, $password, $fullname, $phone, $profilePictureURL, $address, $dateOfBirth, $gender, $bio);
                 
                         // Thông báo kết quả
                         if ($result) {

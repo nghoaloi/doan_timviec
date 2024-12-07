@@ -92,7 +92,7 @@ function del_user($id) {
     return $stmt->execute();
 }
 
-function updateUser($userID, $email, $password, $fullname, $phone, $usertype, $status, $profilePictureURL, $address, $dateOfBirth, $gender, $bio) {
+function updateUser($userID, $email, $password, $fullname, $phone, $profilePictureURL, $address, $dateOfBirth, $gender, $bio) {
     $conn = connectdb();
 
     // Kiểm tra và băm mật khẩu nếu được cung cấp
@@ -106,15 +106,13 @@ function updateUser($userID, $email, $password, $fullname, $phone, $usertype, $s
         $hashed_password = $stmt->fetchColumn();
     }
 
-    $stmt = $conn->prepare("UPDATE users SET Email = :email, PasswordHash = :password, FullName = :fullname, PhoneNumber = :phone, UserType = :usertype, UserStatus = :status, ProfilePictureURL = :profilePictureURL, Address = :address, DateOfBirth = :dateOfBirth, Gender = :gender, Bio = :bio, UpdatedAt = NOW() WHERE UserID = :userID");
+    $stmt = $conn->prepare("UPDATE users SET Email = :email, PasswordHash = :password, FullName = :fullname, PhoneNumber = :phone, ProfilePictureURL = :profilePictureURL, Address = :address, DateOfBirth = :dateOfBirth, Gender = :gender, Bio = :bio, UpdatedAt = NOW() WHERE UserID = :userID");
 
     $stmt->bindParam(':userID', $userID);
     $stmt->bindParam(':email', $email);
     $stmt->bindParam(':password', $hashed_password);
     $stmt->bindParam(':fullname', $fullname);
     $stmt->bindParam(':phone', $phone);
-    $stmt->bindParam(':usertype', $usertype);
-    $stmt->bindParam(':status', $status);
     $stmt->bindParam(':profilePictureURL', $profilePictureURL);
     $stmt->bindParam(':address', $address);
     $stmt->bindParam(':dateOfBirth', $dateOfBirth);

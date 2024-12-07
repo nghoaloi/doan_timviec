@@ -1,6 +1,6 @@
 <?php
    $userid =  $_SESSION['UserID'];     
-   $ten = $_SESSION['FullName'];
+   $user = getUserByID($userid);
 ?>
 <section class="mt-5 pt-5">
     <div class="container-fluid py-5 mb-5 mt-5">
@@ -19,27 +19,25 @@
                     <br>
                     <label for="status" class="mb-1">Trạng thái:&nbsp;&nbsp;&nbsp;<?php echo htmlspecialchars($user['UserStatus'] ?? ''); ?></label>
                     <br>
-                    <?php
-                        $userid = $_SESSION['UserID'];  
-                        $user = getUserByID($userid);
-                    ?>
+                    <label for="currentPassword" class="mb-1">Mật khẩu hiện tại:</label>
+                    <input type="password" name="currentPassword" id="currentPassword" class="form-control" required>
+                    <br>
+                    <label for="newPassword" class="mb-1">Mật khẩu mới:</label>
+                    <input type="password" name="newPassword" id="newPassword" class="form-control">
+                    <br>
 
                     <a href="index.php?act=mo_updateuser_foruser&id=<?php echo $user['UserID']; ?>" class="btn btn-warning btn-sm">Sửa</a> 
-                    </form>
+                </form>
             </div>
 
             <!-- Mục hiển thị người dùng -->
             <div class="col-md-4">
-                ảnh đại diện <br>
-                <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
-                    <table class="table table-bordered mt-2">
-                        <img src="upload" alt="">
-                    </table>
-                </div>
+                <img src="<?php echo htmlspecialchars($user['ProfilePictureURL'] ?? 'https://via.placeholder.com/150'); ?>" alt="ảnh đại diện" class="img-fluid">
             </div>
         </div>
     </div>
 </section>
+
 <script>
     async function checkEmailExists(email) {
         const response = await fetch('index.php?act=user_add', {
