@@ -1,3 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Công Ty</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
 <section class="mt-5 pt-5">
     <div class="container-fluid py-5 mb-5 mt-5">
         <h2>QUẢN LÝ CÔNG TY</h2>
@@ -6,7 +16,8 @@
             <div class="col-md-4">
                 <form action="index.php?act=company_add" method="post" enctype="multipart/form-data" class="d-flex flex-column">
                     <label for="userID" class="mb-1">User ID:</label>
-                    <input type="number" name="userID" id="userID" class="mb-3 form-control" required>
+                    <input type="text" name="userID" id="userID" class="mb-3 form-control" required list="userList">
+                    <datalist id="userList"></datalist>
 
                     <label for="companyName" class="mb-1">Tên công ty:</label>
                     <input type="text" name="companyName" id="companyName" class="mb-3 form-control" required>
@@ -17,8 +28,8 @@
                     <label for="websiteURL" class="mb-1">URL Trang web:</label>
                     <input type="url" name="websiteURL" id="websiteURL" class="mb-3 form-control">
 
-                    <label for="logoURL" class="mb-1">URL Logo:</label>
-                    <input type="url" name="logoURL" id="logoURL" class="mb-3 form-control">
+                    <label for="logoURL" class="mb-1">Logo công ty:</label>
+                    <input type="file" name="logoURL" id="logoURL" class="mb-3 form-control">
 
                     <label for="location" class="mb-1">Vị trí:</label>
                     <input type="text" name="location" id="location" class="mb-3 form-control">
@@ -41,7 +52,7 @@
                                 <th scope="col">Tên công ty</th>
                                 <th scope="col">Ngành công nghiệp</th>
                                 <th scope="col">URL Trang web</th>
-                                <th scope="col">URL Logo</th>
+                                <th scope="col">Logo công ty</th>
                                 <th scope="col">Vị trí</th>
                                 <th scope="col">Mô tả</th>
                                 <th scope="col">Hành động</th>
@@ -54,12 +65,13 @@
                             if (isset($companies) && count($companies) > 0) {
                                 $i = 1;
                                 foreach ($companies as $company) {
+                                    $logoPath = !empty($company['LogoURL']) ? 'uploads/'.$company['LogoURL'] : 'https://via.placeholder.com/100';
                                     echo '<tr>
                                             <th scope="row">'.$i.'</th>
                                             <td>'.$company['CompanyName'].'</td>
                                             <td>'.$company['Industry'].'</td>
-                                            <td>'.$company['WebsiteURL'].'</td>
-                                            <td>'.$company['LogoURL'].'</td>
+                                            <td><a href="'.$company['WebsiteURL'].'" target="_blank">'.$company['WebsiteURL'].'</a></td>
+                                            <td><img src="'.$logoPath.'" alt="Logo" width="50" height="50"></td>
                                             <td>'.$company['Location'].'</td>
                                             <td>'.$company['Description'].'</td>
                                             <td>
@@ -80,3 +92,25 @@
         </div>
     </div>
 </section>
+
+<script>
+$(document).ready(function() {
+    $('#userID').on('input', function() {
+        var userInput = $(this).val();
+        if (userInput.length >= 1) {
+            $.ajax({
+                url: 'index.php?act=get_users', // Tạo một case mới để xử lý yêu cầu AJAX
+                method: 'POST',
+                data: { query: userInput },
+                success: function(response) {
+                    $('#userList').html(response);
+                }
+            });
+        }
+    });
+});
+</script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
