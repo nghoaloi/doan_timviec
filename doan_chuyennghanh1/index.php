@@ -116,15 +116,18 @@
                         $dateOfBirth = htmlspecialchars($_POST['dateOfBirth']);
                         $gender = htmlspecialchars($_POST['gender']);
                         $bio = htmlspecialchars($_POST['bio']);
-                        $password = $_POST['currentPassword']; // Mặc định sử dụng mật khẩu cũ
-                
+                        
                         // Kiểm tra và mã hóa mật khẩu nếu có thay đổi
                         if (!empty($_POST['password'])) {
                             $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+                        } else {
+                            $password = $_POST['currentPassword']; // Sử dụng mật khẩu cũ nếu không nhập mới
                         }
                 
                         // Xử lý ảnh đại diện
                         $profilePictureURL = $_POST['currentProfilePictureURL']; // Ảnh cũ mặc định
+                        $uploadOk = 1; // Đảm bảo biến $uploadOk được khởi tạo
+                
                         if (isset($_FILES['profilePictureURL']) && $_FILES['profilePictureURL']['error'] === UPLOAD_ERR_OK) {
                             $target_dir = "uploads/"; // Thư mục lưu file
                             if (!is_dir($target_dir)) {
@@ -173,16 +176,14 @@
                         if ($result) {
                             echo "<script>alert('Cập nhật người dùng thành công!');</script>";
                         } else {
-                            echo "<script>alert('Có lỗi xảy ra khi cập nhật người dùng.');</script>";
+                            echo "<script>alert('Có lỗi xảy ra khi cập nhật người dùng. Vui lòng kiểm tra thông tin nhập vào.');</script>";
                         }
                     }
                 
                     // Lấy lại danh sách người dùng
                     $users = getUsers();
                     include "views/user.php";
-                    break;
-                
-            
+                    break;                           
         // Xử lý thêm công ty
         case 'company':
             include "views/company.php";
