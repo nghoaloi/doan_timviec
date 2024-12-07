@@ -14,28 +14,67 @@
         case 'user':
             include "views/user.php";
             break;
-        case 'user_add':
-            if (isset($_POST['adduser']) && ($_POST['adduser'])) {
-                $email = $_POST['email']; 
-                $password = $_POST['password']; 
-                $fullname = $_POST['fullname']; 
-                $phone = $_POST['phone']; 
-                $usertype = $_POST['usertype']; 
-                $status = $_POST['status']; 
-                $emailExists = checkEmailExists($email); 
-                if ($emailExists) { 
-                    echo "<script>alert('Email đã tồn tại!');</script>"; 
-                } else { 
-                    $result = addUser($email, $password, $fullname, $phone, $usertype, $status); 
-                    if ($result) { 
-                        echo "<script>alert('Thêm người dùng thành công!');</script>"; 
-                    } else { 
-                        echo "<script>alert('Có lỗi xảy ra khi thêm người dùng.');</script>"; 
-                    } 
-                } 
-            } 
-            include "views/user.php"; 
-            break;
+            case 'user_add':
+                if (isset($_POST['adduser']) && ($_POST['adduser'])) {
+                    $email = htmlspecialchars($_POST['email']);
+                    $password = htmlspecialchars($_POST['password']);
+                    $fullname = htmlspecialchars($_POST['fullname']);
+                    $phone = htmlspecialchars($_POST['phone']);
+                    $usertype = htmlspecialchars($_POST['usertype']);
+                    $status = htmlspecialchars($_POST['status']);
+                    $emailExists = checkEmailExists($email);
+            
+                    // Mã hóa mật khẩu
+                    $password = password_hash($password, PASSWORD_DEFAULT);
+            
+                    // Xử lý upload hình ảnh
+                    $profilePictureURL = '';
+                    $uploadOk = 1;
+            
+                    if (isset($_FILES['profilePictureURL']) && $_FILES['profilePictureURL']['error'] == 0) {
+                        $target_dir = "uploads/";
+                        if (!is_dir($target_dir)) {
+                            mkdir($target_dir, 0777, true);
+                        }
+                        $unique_name = uniqid() . "_" . basename($_FILES["profilePictureURL"]["name"]);
+                        $target_file = $target_dir . $unique_name;
+                        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+            
+                        // Kiểm tra định dạng file
+                        if (!in_array($imageFileType, ['jpg', 'jpeg', 'png', 'gif', 'webp'])) {
+                            echo "<script>alert('Chỉ cho phép các tệp JPG, JPEG, PNG, GIF, và WEBP.');</script>";
+                            $uploadOk = 0;
+                        }
+            
+                        // Kiểm tra kích thước file
+                        if ($_FILES["profilePictureURL"]["size"] > 5000000) {
+                            echo "<script>alert('Tệp quá lớn (tối đa 5MB).');</script>";
+                            $uploadOk = 0;
+                        }
+            
+                        // Upload file
+                        if ($uploadOk == 1) {
+                            if (move_uploaded_file($_FILES["profilePictureURL"]["tmp_name"], $target_file)) {
+                                $profilePictureURL = $unique_name; // Lưu tên tệp ngẫu nhiên
+                            } else {
+                                echo "<script>alert('Lỗi khi tải tệp lên.');</script>";
+                            }
+                        }
+                    }
+            
+                    if ($emailExists) {
+                        echo "<script>alert('Email đã tồn tại!');</script>";
+                    } else {
+                        $result = addUser($email, $password, $fullname, $phone, $usertype, $status, $profilePictureURL);
+                        if ($result) {
+                            echo "<script>alert('Thêm người dùng thành công!');</script>";
+                        } else {
+                            echo "<script>alert('Có lỗi xảy ra khi thêm người dùng.');</script>";
+                        }
+                    }
+                }
+                include "views/user.php";
+                break;
         case 'user_search':
             if (isset($_POST['searchuser']) && ($_POST['searchuser'])) {
                 $search = $_POST['search'];
