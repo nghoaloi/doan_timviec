@@ -188,25 +188,69 @@
         case 'company':
             include "views/company.php";
             break;
-        case 'company_add':
-            if (isset($_POST['addCompany']) && ($_POST['addCompany'])) {
-                $userID = $_POST['userID'];
-                $companyName = $_POST['companyName'];
-                $industry = $_POST['industry'];
-                $websiteURL = $_POST['websiteURL'];
-                $logoURL = $_POST['logoURL'];
-                $location = $_POST['location'];
-                $description = $_POST['description'];
-                $result = addCompany($userID, $companyName, $industry, $websiteURL, $logoURL, $location, $description);
-                if ($result) {
-                    echo "<script>alert('Thêm công ty thành công!');</script>";
-                } else {
-                    echo "<script>alert('Có lỗi xảy ra khi thêm công ty.');</script>";
+            case 'company_add':
+                if (isset($_POST['addCompany']) && ($_POST['addCompany'])) {
+                    $userID = htmlspecialchars($_POST['userID']);
+                    $companyName = htmlspecialchars($_POST['companyName']);
+                    $industry = htmlspecialchars($_POST['industry']);
+                    $websiteURL = htmlspecialchars($_POST['websiteURL']);
+                    $location = htmlspecialchars($_POST['location']);
+                    $description = htmlspecialchars($_POST['description']);
+                    
+                    // Khởi tạo biến $uploadOk
+                    $uploadOk = 1;
+            
+                    // Xử lý ảnh logo
+                    $logoURL = '';
+                    if (isset($_FILES['logoURL']) && $_FILES['logoURL']['error'] === UPLOAD_ERR_OK) {
+                        $target_dir = "uploads/"; // Thư mục lưu file
+                        if (!is_dir($target_dir)) {
+                            mkdir($target_dir, 0777, true); // Tạo thư mục nếu chưa tồn tại
+                        }
+            
+                        // Định dạng tên file
+                        $unique_name = uniqid() . "_" . basename($_FILES["logoURL"]["name"]);
+                        $target_file = $target_dir . $unique_name;
+            
+                        // Kiểm tra định dạng file
+                        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+                        $allowed_file_types = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+                        if (!in_array($imageFileType, $allowed_file_types)) {
+                            echo "<script>alert('Chỉ cho phép các tệp JPG, JPEG, PNG, GIF và WEBP.');</script>";
+                            $uploadOk = 0;
+                        }
+            
+                        // Kiểm tra kích thước file (tối đa 5MB)
+                        if ($_FILES["logoURL"]["size"] > 5000000) {
+                            echo "<script>alert('Tệp quá lớn (tối đa 5MB).');</script>";
+                            $uploadOk = 0;
+                        }
+            
+                        // Nếu không có lỗi, xử lý upload
+                        if ($uploadOk == 1) {
+                            if (move_uploaded_file($_FILES["logoURL"]["tmp_name"], $target_file)) {
+                                $logoURL = $unique_name; // Cập nhật tên file mới
+                            } else {
+                                echo "<script>alert('Lỗi khi tải file lên. Vui lòng thử lại.');</script>";
+                                return;
+                            }
+                        }
+                    }
+            
+                    // Thêm công ty vào cơ sở dữ liệu
+                    $result = addCompany($userID, $companyName, $industry, $websiteURL, $logoURL, $location, $description);
+                    
+                    // Thông báo kết quả
+                    if ($result) {
+                        echo "<script>alert('Thêm công ty thành công!');</script>";
+                    } else {
+                        echo "<script>alert('Có lỗi xảy ra khi thêm công ty.');</script>";
+                    }
                 }
-            }
-            $companies = getCompanies();
-            include "views/company.php";
-            break;
+                $companies = getCompanies();
+                include "views/company.php";
+                break;
+            
         case 'del_company':
             if (isset($_GET['id']) && !empty($_GET['id'])) {
                 $id = $_GET['id'];
@@ -226,27 +270,100 @@
             }
             include "views/company_edit.php";
             break;
-        case 'company_edit':
-            if (isset($_POST['updateCompany']) && ($_POST['updateCompany'])) {
-                $companyID = $_POST['companyID'];
-                $companyName = $_POST['companyName'];
-                $industry = $_POST['industry'];
-                $websiteURL = $_POST['websiteURL'];
-                $logoURL = $_POST['logoURL'];
-                $location = $_POST['location'];
-                $description = $_POST['description'];
-                $result = updateCompany($companyID, $companyName, $industry, $websiteURL, $logoURL, $location, $description);
-                if ($result) {
-                    echo "<script>alert('Cập nhật công ty thành công!');</script>";
-                } else {
-                    echo "<script>alert('Có lỗi xảy ra khi cập nhật công ty.');</script>";
+            case 'company_edit':
+                if (isset($_POST['updateCompany']) && ($_POST['updateCompany'])) {
+                    // Lấy dữ liệu từ form
+                    $companyID = htmlspecialchars($_POST['companyID']);
+                    $userID = htmlspecialchars($_POST['userID']);
+                    $companyName = htmlspecialchars($_POST['companyName']);
+                    $industry = htmlspecialchars($_POST['industry']);
+                    $websiteURL = htmlspecialchars($_POST['websiteURL']);
+                    $currentLogoURL = htmlspecialchars($_POST['currentLogoURL']); // Lấy URL logo hiện tại
+                    $location = htmlspecialchars($_POST['location']);
+                    $description = htmlspecialchars($_POST['description']);
+                    
+                    // Kiểm tra `UserID` hợp lệ
+                    $user = getUserByID($userID);
+                    if (!$user) {
+                        echo "<script>alert('UserID không hợp lệ. Vui lòng kiểm tra lại.');</script>";
+                        return;
+                    }
+            
+                    // Xử lý logo công ty
+                    $logoURL = $currentLogoURL; // Sử dụng logo cũ mặc định
+                    $uploadOk = 1; // Đảm bảo biến $uploadOk được khởi tạo
+            
+                    if (isset($_FILES['logoURL']) && $_FILES['logoURL']['error'] === UPLOAD_ERR_OK) {
+                        $target_dir = "uploads/"; // Thư mục lưu file
+                        if (!is_dir($target_dir)) {
+                            mkdir($target_dir, 0777, true); // Tạo thư mục nếu chưa tồn tại
+                        }
+            
+                        // Định dạng tên file
+                        $unique_name = uniqid() . "_" . basename($_FILES["logoURL"]["name"]);
+                        $target_file = $target_dir . $unique_name;
+            
+                        // Kiểm tra định dạng file
+                        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+                        $allowed_file_types = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+                        if (!in_array($imageFileType, $allowed_file_types)) {
+                            echo "<script>alert('Chỉ cho phép các tệp JPG, JPEG, PNG, GIF và WEBP.');</script>";
+                            $uploadOk = 0;
+                        }
+            
+                        // Kiểm tra kích thước file (tối đa 5MB)
+                        if ($_FILES["logoURL"]["size"] > 5000000) {
+                            echo "<script>alert('Tệp quá lớn (tối đa 5MB).');</script>";
+                            $uploadOk = 0;
+                        }
+            
+                        // Nếu không có lỗi, xử lý upload và xóa ảnh cũ
+                        if ($uploadOk == 1) {
+                            if (!empty($currentLogoURL) && file_exists("uploads/" . $currentLogoURL)) {
+                                unlink("uploads/" . $currentLogoURL); // Xóa ảnh cũ
+                            }
+                            if (move_uploaded_file($_FILES["logoURL"]["tmp_name"], $target_file)) {
+                                $logoURL = $unique_name; // Cập nhật tên file mới
+                            } else {
+                                echo "<script>alert('Lỗi khi tải file lên. Vui lòng thử lại.');</script>";
+                                return;
+                            }
+                        }
+                    } elseif ($_FILES['logoURL']['error'] !== UPLOAD_ERR_NO_FILE) {
+                        echo "<script>alert('Có lỗi xảy ra khi tải tệp lên.');</script>";
+                        return;
+                    }
+            
+                    // Cập nhật dữ liệu công ty vào cơ sở dữ liệu
+                    $result = updateCompany($companyID, $userID, $companyName, $industry, $websiteURL, $logoURL, $location, $description);
+            
+                    // Thông báo kết quả
+                    if ($result) {
+                        echo "<script>alert('Cập nhật công ty thành công!');</script>";
+                    } else {
+                        echo "<script>alert('Có lỗi xảy ra khi cập nhật công ty.');</script>";
+                    }
                 }
-            }
-            $companies = getCompanies();
-            include "views/company.php";
-            break;
-
-
+            
+                // Lấy lại danh sách công ty
+                $companies = getCompanies();
+                include "views/company.php";
+                break;
+            
+                case 'get_users':
+                    if (isset($_POST['query'])) {
+                        $query = $_POST['query'];
+                        $users = searchUsers($query); // Giả sử bạn có hàm `searchUsers` để tìm kiếm người dùng
+                        if (count($users) > 0) {
+                            foreach ($users as $user) {
+                                echo '<option value="' . $user['UserID'] . '">' . $user['FullName'] . '</option>';
+                            }
+                        }
+                    }
+                    break;
+                
+                
+            
         // Công việc
         case 'job':
             include "views/job.php";

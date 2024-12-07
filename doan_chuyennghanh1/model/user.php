@@ -69,12 +69,11 @@ if (isset($_POST['action']) && $_POST['action'] == 'check_email') {
     echo $emailExists ? 'exists' : 'not_exists';
     exit;
 }
-function searchUsers($search) {
+function searchUsers($query) {
     $conn = connectdb();
-    $stmt = $conn->prepare("SELECT FullName
-                            FROM users 
-                            WHERE FullName LIKE :search");
-    $stmt->bindValue(':search', '%' . $search . '%');
+    $stmt = $conn->prepare("SELECT UserID, FullName FROM users WHERE FullName LIKE :query OR UserID LIKE :query LIMIT 10");
+    $query = "%" . $query . "%";
+    $stmt->bindParam(':query', $query, PDO::PARAM_STR);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
@@ -167,6 +166,12 @@ function FindUserByID($id){
     $stmt->bindParam(':id', $id, PDO::PARAM_INT); // Gán giá trị cho tham số truy vấn
     $stmt->execute();
     return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+function getUsersByUserType() {
+    $conn = connectdb();
+    $stmt = $conn->prepare("SELECT UserID, FullName FROM users WHERE UserType = 'Employer'");
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
 
