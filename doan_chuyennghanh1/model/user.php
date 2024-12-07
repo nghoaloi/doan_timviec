@@ -134,7 +134,7 @@ function getUserByID($UserID) {
 }
 function FindUserByID($id){
     $conn = connectdb();
-    $stmt = $conn->prepare("SELECT UserID, FullName, Email, PhoneNumber FROM users WHERE UserID = :id");
+    $stmt = $conn->prepare("SELECT UserID, FullName, Email, PhoneNumber,UserStatus FROM users WHERE UserID = :id");
     $stmt->bindParam(':id', $id, PDO::PARAM_INT); // Gán giá trị cho tham số truy vấn
     $stmt->execute();
     return $stmt->fetch(PDO::FETCH_ASSOC);

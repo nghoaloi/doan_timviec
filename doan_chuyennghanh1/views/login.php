@@ -14,6 +14,7 @@
         $_SESSION['UserType'] = $user['UserType'];
         $_SESSION['FullName'] = $user['FullName']; // Lưu tên người dùng vào session
         $_SESSION['UserID']= $user['UserID'];
+        $_SESSION['UserStatus']= $user['UserStatus'];
         
         if ($user['UserType'] == 'Admin') {
             header('Location: ../index.php');

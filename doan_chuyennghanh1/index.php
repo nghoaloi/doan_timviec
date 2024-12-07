@@ -294,8 +294,7 @@
                     
                     include "views/home_employer.php";
                     break;
-                case 'dangbai':
-                    
+                case 'dangbai':                   
                     if (isset($_POST['addJob']) && ($_POST['addJob'])) {
                         $companyID = $_POST['companyID'];
                         $jobTitle = $_POST['jobTitle'];
@@ -315,16 +314,11 @@
                     $jobs = getJobs();
                     include "views/job.php";
                     break;
-                case 'dangquangcao':
-                    
-                    # code...
-                    break;
+
                 case 'quanglydon':
-                   
                     # code...
                     break;
                 case 'thoat':
-                    
                     unset($_SESSION['UserType']);
                     header('location:index.php');  
                     break;
