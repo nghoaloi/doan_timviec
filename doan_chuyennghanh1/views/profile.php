@@ -10,51 +10,29 @@
             <div class="col-md-4">
                 <form action="index.php?act=profile" method="post" enctype="multipart/form-data" class="d-flex flex-column">
                     <label for="fullname" class="mb-1">Họ và tên:</label>
-                    <input type="text" name="fullname" id="fullname" class="mb-3 form-control" required>
+                    
                     
                     <label for="email" class="mb-1">Email:</label>
-                    <input type="email" name="email" id="email" class="mb-3 form-control" required>
+                    
                     
                     <label for="password" class="mb-1">Mật khẩu:</label>
-                    <input type="password" name="password" id="password" class="mb-3 form-control" required>
+                    
                     
                     <label for="number" class="mb-1">Số điện thoại:</label>
-                    <input type="tel" name="phone" id="phone" class="mb-3 form-control">
-                    
-                    <label for="usertype" class="mb-1">Loại tài khoản:</label>
-                    <select name="usertype" id="usertype" class="mb-3 form-control" required>
-                        <option value="Candidate">Ứng viên</option>
-                        <option value="Employer">Nhà tuyển dụng</option>
-                        <option value="Admin">Quản trị viên</option>
-                    </select>
+                   
                     
                     <label for="status" class="mb-1">Trạng thái:</label>
-                    <select name="status" id="status" class="mb-3 form-control" required>
-                        <option value="Active">Hoạt động</option>
-                        <option value="Inactive">Không hoạt động</option>
-                        <option value="Banned">Bị cấm</option>
-                    </select>
                     
-                    <input type="submit" name="adduser" value="Thêm mới" class="btn btn-primary">
+                    <input type="submit" name="updateuser" value="sửa đổi thông tin" class="btn btn-primary">
                 </form>
             </div>
 
             <!-- Mục hiển thị người dùng -->
             <div class="col-md-8">
-                <h1>Danh sách người dùng</h1>
+                <h1>ảnh</h1>
                 <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
                     <table class="table table-bordered mt-2">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th scope="col">STT</th>
-                                <th scope="col">Họ và tên</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Số điện thoại</th>
-                                <th scope="col">Loại tài khoản</th>
-                                <th scope="col">Trạng thái</th>
-                                <th scope="col">Hành động</th>
-                            </tr>
-                        </thead>
+                        
                     </table>
                 </div>
             </div>
