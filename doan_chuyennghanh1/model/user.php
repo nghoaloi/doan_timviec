@@ -31,7 +31,7 @@ function addUser_register($email, $password,$usertype) {
     $stmt->bindParam(':usertype',$usertype);
     return $stmt->execute(); 
 }
-function addUser($email, $password, $fullname, $phone, $usertype, $status) {
+function addUser($email, $password, $fullname, $phone, $usertype, $status, $profilePictureURL = '') {
     // Kết nối cơ sở dữ liệu
     $conn = connectdb();
     
@@ -39,8 +39,8 @@ function addUser($email, $password, $fullname, $phone, $usertype, $status) {
     $passwordHash = password_hash($password, PASSWORD_DEFAULT);
     
     // Chuẩn bị câu lệnh SQL để thêm người dùng mới
-    $stmt = $conn->prepare("INSERT INTO users (Email, PasswordHash, FullName, PhoneNumber, UserType, UserStatus) 
-                            VALUES (:email, :password, :fullname, :phone, :usertype, :status)");
+    $stmt = $conn->prepare("INSERT INTO users (Email, PasswordHash, FullName, PhoneNumber, UserType, UserStatus, ProfilePictureURL) 
+                            VALUES (:email, :password, :fullname, :phone, :usertype, :status, :profilePictureURL)");
     
     // Gán giá trị cho các tham số
     $stmt->bindParam(':email', $email);
@@ -49,14 +49,16 @@ function addUser($email, $password, $fullname, $phone, $usertype, $status) {
     $stmt->bindParam(':phone', $phone);
     $stmt->bindParam(':usertype', $usertype);
     $stmt->bindParam(':status', $status);
+    $stmt->bindParam(':profilePictureURL', $profilePictureURL);
     
     // Thực thi câu lệnh SQL và trả về kết quả
     return $stmt->execute();
 }
 
+
 function getUsers() {
     $conn = connectdb();
-    $stmt = $conn->prepare("SELECT UserID, FullName, Email, PhoneNumber, UserType, UserStatus FROM users");
+    $stmt = $conn->prepare("SELECT * FROM users");
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
@@ -89,6 +91,46 @@ function del_user($id) {
     
     // Thực thi câu lệnh SQL và trả về kết quả
     return $stmt->execute();
+}
+
+function updateUser($userID, $email, $password, $fullname, $phone, $usertype, $status, $profilePictureURL = null, $address = null, $dateOfBirth = null, $gender = null, $bio = null) {
+    $conn = connectdb();
+
+    // Kiểm tra và băm mật khẩu nếu được cung cấp
+    if (!empty($password)) {
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    } else {
+        // Lấy mật khẩu hiện tại từ cơ sở dữ liệu nếu không có mật khẩu mới
+        $stmt = $conn->prepare("SELECT PasswordHash FROM users WHERE UserID = :userID");
+        $stmt->bindParam(':userID', $userID);
+        $stmt->execute();
+        $hashed_password = $stmt->fetchColumn();
+    }
+
+    $stmt = $conn->prepare("UPDATE users SET Email = :email, PasswordHash = :password, FullName = :fullname, PhoneNumber = :phone, UserType = :usertype, UserStatus = :status, ProfilePictureURL = :profilePictureURL, Address = :address, DateOfBirth = :dateOfBirth, Gender = :gender, Bio = :bio, UpdatedAt = NOW() WHERE UserID = :userID");
+
+    $stmt->bindParam(':userID', $userID);
+    $stmt->bindParam(':email', $email);
+    $stmt->bindParam(':password', $hashed_password);
+    $stmt->bindParam(':fullname', $fullname);
+    $stmt->bindParam(':phone', $phone);
+    $stmt->bindParam(':usertype', $usertype);
+    $stmt->bindParam(':status', $status);
+    $stmt->bindParam(':profilePictureURL', $profilePictureURL);
+    $stmt->bindParam(':address', $address);
+    $stmt->bindParam(':dateOfBirth', $dateOfBirth);
+    $stmt->bindParam(':gender', $gender);
+    $stmt->bindParam(':bio', $bio);
+
+    return $stmt->execute();
+}
+
+function getUserByID($UserID) {
+    $conn = connectdb();
+    $stmt = $conn->prepare("SELECT * FROM users WHERE UserID = :UserID");
+    $stmt->bindParam(':UserID', $UserID, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 function FindUserByID($id){
     $conn = connectdb();
