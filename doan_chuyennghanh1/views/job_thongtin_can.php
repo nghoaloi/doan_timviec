@@ -1,14 +1,7 @@
 <?php
     $userid =  $_SESSION['UserID']??"";  
     $jobid = $_GET['jobid']??"";
-   if(isset($userid)&& isset($_GET['jobid'])){
-         $jobid =  $_GET['jobid'];
-        $job = getJobByID_user($userid,$jobid);
-   }
-   elseif(isset($_GET['jobid'])){
-        $jobid = $_GET['jobid'];
-        $job = getJobByID($jobid);
-   }
+    $job = getJobByID($jobid);  
 ?>
 <!doctype php>
 <php class="no-js" lang="zxx">

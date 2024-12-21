@@ -135,7 +135,7 @@
             <div class="col-xl-10">
             <?php
                                
-                               $jobs = getJobs(); // Lấy danh sách công việc
+                               $jobs = getJobs(); // Lấy tất cả danh sách công việc
                                foreach ($jobs as $job) {
                                    echo '<div class="single-job-items mb-30">
                                            <div class="job-items">

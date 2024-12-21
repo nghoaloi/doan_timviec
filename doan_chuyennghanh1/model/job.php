@@ -63,17 +63,27 @@ function getJobByID_user($userid, $jobID) {
     $stmt->execute();
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
-// lấy tất id công việc 
-function getallidjob_by_userid(){
+// lấy tất id công việc của user hiện hành
+function getallidjob_by_userid($userid){
     $conn = connectdb();
-    $stmt = $conn->prepare("SELECT savedjobs.*,jobs.*
-    FROM savedjobs JOIN jobs ON savedjobs.JobID = jobs.JobID
+    $stmt = $conn->prepare("SELECT savedjobs.JobID
+    FROM savedjobs
     WHERE savedjobs.UserID = :userid");
     $stmt->bindParam(':userid', $userid, PDO::PARAM_INT);
     $stmt->execute();
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
-
+// kiểm tra nếu công việc có trong savejob không
+function checkjob_in_list($userid,$jobID){
+    $conn = connectdb();
+    $stmt = $conn->prepare("SELECT savedjobs.JobID
+    FROM savedjobs
+    WHERE savedjobs.UserID = :userid and savedjobs.JobID = :jobID");
+    $stmt->bindParam(':userid', $userid, PDO::PARAM_INT);
+    $stmt->bindParam(':jobID', $jobID, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
 // Xóa công việc
 function delJob($jobID) {
     $conn = connectdb();
