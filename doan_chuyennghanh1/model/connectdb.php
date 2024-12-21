@@ -1,9 +1,9 @@
 <?php
 function connectdb() {
     $servername = "auth-db1637.hstgr.io";
-    $username = "u773112933_timviec";
+    $username = "u773112933_cn_loi_huy";
     $password = "12345678@Lh";
-    $dbname = "u773112933_timviec";
+    $dbname = "u773112933_cn_loi_huy";
 
     try {
         $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);

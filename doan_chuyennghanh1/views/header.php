@@ -68,6 +68,7 @@
                         <li><a href="index.php?act=user">Danh sách tài khoản</a></li>
                         <li><a href="index.php?act=company">Danh sách công ty </a></li>
                         <li><a href="index.php?act=job">Danh sách công việc</a></li>
+                        <li><a href="index.php?act=review">Đánh giá</a></li>
                         <?php
                           $ten = isset($_SESSION['FullName']) ? $_SESSION['FullName'] : '';
                           echo '<li><a href="index.php?act=userinfo">'.$ten.'</a></li>

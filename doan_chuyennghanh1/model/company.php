@@ -33,6 +33,19 @@ function getCompanyByID($companyID) {
     $stmt->execute();
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
+function getCompanyNameByID($companyID) {
+    $conn = connectdb();
+    if ($conn) {
+        $stmt = $conn->prepare("SELECT CompanyName FROM companies WHERE CompanyID = :companyID");
+        $stmt->bindParam(':companyID', $companyID, PDO::PARAM_INT);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($result) {
+            return $result['CompanyName'];
+        }
+    }
+    return null;
+}
 
 
 // Xóa công ty

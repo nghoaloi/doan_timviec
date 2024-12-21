@@ -5,6 +5,7 @@
     include "model/user.php";
     include "model/company.php";
     include "model/job.php";
+    include "model/review.php";
     
     if(isset($_SESSION['UserType'])&&($_SESSION['UserType']=='Admin')){
         include "views/header.php";
@@ -24,20 +25,21 @@
                     $status = htmlspecialchars($_POST['status']);
                     $emailExists = checkEmailExists($email);
             
-                    // Mã hóa mật khẩu
-                    $password = password_hash($password, PASSWORD_DEFAULT);
-            
                     // Xử lý upload hình ảnh
                     $profilePictureURL = '';
                     $uploadOk = 1;
             
-                    if (isset($_FILES['profilePictureURL']) && $_FILES['profilePictureURL']['error'] == 0) {
+                    if (isset($_FILES['profilePictureURL']) && $_FILES['profilePictureURL']['error'] == UPLOAD_ERR_OK) {
                         $target_dir = "uploads/";
                         if (!is_dir($target_dir)) {
                             mkdir($target_dir, 0777, true);
                         }
-                        $unique_name = uniqid() . "_" . basename($_FILES["profilePictureURL"]["name"]);
-                        $target_file = $target_dir . $unique_name;
+                        $cleanName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $fullname); // Tên người dùng hợp lệ
+                        $currentTime = time();
+                        $formattedDate = date('Ymd_His', $currentTime);
+                        $fileExtension = pathinfo($_FILES["profilePictureURL"]["name"], PATHINFO_EXTENSION);
+                        $newFileName = $cleanName . "_" . $formattedDate . '.' . $fileExtension;
+                        $target_file = $target_dir . $newFileName;
                         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
             
                         // Kiểm tra định dạng file
@@ -55,7 +57,7 @@
                         // Upload file
                         if ($uploadOk == 1) {
                             if (move_uploaded_file($_FILES["profilePictureURL"]["tmp_name"], $target_file)) {
-                                $profilePictureURL = $unique_name; // Lưu tên tệp ngẫu nhiên
+                                $profilePictureURL = $newFileName; // Lưu tên tệp mới
                             } else {
                                 echo "<script>alert('Lỗi khi tải tệp lên.');</script>";
                             }
@@ -74,7 +76,7 @@
                     }
                 }
                 include "views/user.php";
-                break;
+                break;                  
         case 'user_search':
             if (isset($_POST['searchuser']) && ($_POST['searchuser'])) {
                 $search = $_POST['search'];
@@ -427,6 +429,11 @@
             }
             $jobs = getJobs();
             include "views/job.php";
+            break;
+
+        //danhgia
+        case 'review':
+            include "views/review.php";
             break;
 
         case 'thoat':
