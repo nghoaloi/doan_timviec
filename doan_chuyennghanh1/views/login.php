@@ -10,8 +10,6 @@
     if (isset($_POST['login']) && ($_POST['login'])){
       $email = $_POST['email'];
       $pass = $_POST['password'];
-
-      // $hashed_password = password_verify($pass);
       $user = checkuser($email);
       if ($user !== null) {
         if (password_verify($pass, $user['PasswordHash'])){

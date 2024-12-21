@@ -122,7 +122,7 @@
                 ?>
                   <!-- Header-btn -->
                   <div class="header-btn d-none f-right d-lg-block">
-                    <a href="views/register_ntd.php" class="btn head-btn1">Đăng Ký</a>
+                    <a href="views/register_nguoitim.php" class="btn head-btn1">Đăng Ký</a>
                     <a href="views/login.php" class="btn head-btn2">Đăng Nhập</a>
                   </div>
                 <?php
