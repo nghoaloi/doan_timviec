@@ -1,5 +1,5 @@
 <?php
-    $userid =  $_SESSION['UserID']??"";  
+    
     $jobid = $_GET['jobid']??"";
     $job = getJobByID($jobid);  
 ?>

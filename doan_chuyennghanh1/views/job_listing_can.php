@@ -192,8 +192,10 @@
                                 <!-- Count of Job list End -->
                                  <!-- viết truy vấn lấy danh sách công việc -->
                                   <?php
-                               
-                                    $jobs = getJobs(); // Lấy danh sách công việc
+
+                                    $userid =  $_SESSION['UserID']??'';
+                                    $jobs = getallidjob_by_userid($userid);
+                                     // Lấy danh sách công việc
                                     foreach ($jobs as $job) {
                                         echo '<div class="single-job-items mb-30">
                                                 <div class="job-items">

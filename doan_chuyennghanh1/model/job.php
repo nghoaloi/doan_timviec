@@ -66,12 +66,14 @@ function getJobByID_user($userid, $jobID) {
 // lấy tất id công việc của user hiện hành
 function getallidjob_by_userid($userid){
     $conn = connectdb();
-    $stmt = $conn->prepare("SELECT savedjobs.JobID
+    $stmt = $conn->prepare("SELECT jobs.*,companies.*
     FROM savedjobs
+    join jobs on savedjobs.JobID = jobs.JobID
+    join companies  on companies.CompanyID = jobs.CompanyID
     WHERE savedjobs.UserID = :userid");
     $stmt->bindParam(':userid', $userid, PDO::PARAM_INT);
     $stmt->execute();
-    return $stmt->fetch(PDO::FETCH_ASSOC);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 // kiểm tra nếu công việc có trong savejob không
 function checkjob_in_list($userid,$jobID){

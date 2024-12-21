@@ -503,6 +503,7 @@
                     include "views/home_candidate.php";
                     break;
                 case 'joblisting_can':
+                    
                     $_SESSION['UserID'];
                     include "views/job_listing_can.php";
                     break;
