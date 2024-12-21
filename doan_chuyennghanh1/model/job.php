@@ -32,7 +32,7 @@ function getJobs() {
     $conn = connectdb();
     // Thực hiện join giữa bảng jobs và bảng companies để lấy tên công ty
     $stmt = $conn->prepare("
-        SELECT jobs.*, companies.CompanyName 
+        SELECT jobs.*, companies.*
         FROM jobs 
         JOIN companies ON jobs.CompanyID = companies.CompanyID
     ");

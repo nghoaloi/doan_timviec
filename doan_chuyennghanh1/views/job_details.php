@@ -58,14 +58,8 @@
                                             <li><a href="home.php">Home</a></li>
                                             <li><a href="job_listing.php">Find a Jobs </a></li>
                                             <li><a href="about.php">About</a></li>
-                                            <li><a href="#">Page</a>
-                                                <ul class="submenu">
-                                                    <li><a href="blog.php">Blog</a></li>
-                                                    <li><a href="single-blog.php">Blog Details</a></li>
-                                                    <li><a href="elements.php">Elements</a></li>
-                                                    <li><a href="job_details.php">job Details</a></li>
-                                                </ul>
-                                            </li>
+                                            
+                                        
                                             <li><a href="contact.php">Contact</a></li>
                                         </ul>
                                     </nav>
@@ -91,18 +85,7 @@
 
         <!-- Hero Area Start-->
         <div class="slider-area ">
-        <div class="single-slider section-overly slider-height2 d-flex align-items-center" data-background="../assets/img/hero/about.jpg">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xl-12">
-                        <div class="hero-cap text-center">
-                            <h2>UI/UX Designer</h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </div>
+        
         <!-- Hero Area End -->
         <!-- job post company Start -->
         <div class="job-post-company pt-120 pb-120">

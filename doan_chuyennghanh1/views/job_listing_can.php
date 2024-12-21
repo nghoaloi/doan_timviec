@@ -1,4 +1,4 @@
-<main>
+    <main>
         <!-- Job List Area Start -->
         <div class="job-listing-area pt-120 pb-120">
             <div class="container">

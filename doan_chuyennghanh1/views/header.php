@@ -62,6 +62,7 @@
               if(isset($_SESSION['UserType'])&&($_SESSION['UserType']=='Admin')){
 
             ?>
+            <!-- header Admin -->
                   <div class="main-menu">
                     <nav class="d-none d-lg-block">
                       <ul id="navigation">
@@ -80,12 +81,13 @@
                <?php
                   }else if(isset($_SESSION['UserType'])&&($_SESSION['UserType']=='Candidate')){
                 ?>
+                <!-- header của người tìm việc -->
                        <div class="main-menu">
                     <nav class="d-none d-lg-block">
                       <ul id="navigation">
-                        <li><a href="index.php?act=home">trang chủ</a></li>
-                        <li><a href="index.php?act=joblisting">công việc apply </a></li>
-                        <li><a href="index.php?act=profile">profile</a></li>
+                        <li><a href="index.php?act=home_can">trang chủ</a></li>
+                        <li><a href="index.php?act=joblisting_can">công việc apply </a></li>
+                        <li><a href="index.php?act=profile_can">profile</a></li>
 
                         <?php
                           $ten = isset($_SESSION['FullName']) ? $_SESSION['FullName'] : '';
@@ -100,7 +102,7 @@
                   }else if(isset($_SESSION['UserType'])&&($_SESSION['UserType']=='Employer')){
                    
                 ?>
-             
+             <!-- header công ty -->
                   <div class="main-menu">
                     <nav class="d-none d-lg-block">
                       <ul id="navigation">

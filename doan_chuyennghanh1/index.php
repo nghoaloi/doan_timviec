@@ -498,15 +498,15 @@
         if (isset($_GET['act'])){
             
             switch ($_GET['act']) {
-                case 'home':
+                case 'home_can':
                     
                     include "views/home_candidate.php";
                     break;
-                case 'joblist':
+                case 'joblisting_can':
                     
-                    include "views/joblisting.php";
+                    include "views/job_listing_can.php";
                     break;
-                case 'profile':
+                case 'profile_can':
                     $_SESSION['UserID'];
                     include "views/profile.php";
                     break;
