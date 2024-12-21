@@ -110,8 +110,8 @@
                         $email = htmlspecialchars($_POST['email']);
                         $fullname = htmlspecialchars($_POST['fullname']);
                         $phone = htmlspecialchars($_POST['phone']);
-                        $usertype = htmlspecialchars($_POST['usertype']);
-                        $status = htmlspecialchars($_POST['status']);
+                        // $usertype = htmlspecialchars($_POST['usertype']);
+                        // $status = htmlspecialchars($_POST['status']);
                         $address = htmlspecialchars($_POST['address']);
                         $dateOfBirth = htmlspecialchars($_POST['dateOfBirth']);
                         $gender = htmlspecialchars($_POST['gender']);
@@ -170,7 +170,7 @@
                         }
                 
                         // Cập nhật dữ liệu người dùng vào cơ sở dữ liệu
-                        $result = updateUser($userID, $email, $password, $fullname, $phone, $usertype, $status, $profilePictureURL, $address, $dateOfBirth, $gender, $bio);
+                        $result = updateUser($userID, $email, $password, $fullname, $phone, $profilePictureURL, $address, $dateOfBirth, $gender, $bio);
                 
                         // Thông báo kết quả
                         if ($result) {
@@ -514,16 +514,16 @@
                 case 'updateuser_foruser':
                     if (isset($_POST['updateuser_foruser']) && ($_POST['updateuser_foruser'])) {
                         // Lấy dữ liệu từ form
-                        var_dump($_POST['updateuser_foruser']);
                         $userID = htmlspecialchars($_POST['userid']);
                         $email = htmlspecialchars($_POST['email']);
                         $fullname = htmlspecialchars($_POST['fullname']);
                         $phone = htmlspecialchars($_POST['phone']);
+                        // $usertype = htmlspecialchars($_POST['usertype']);
+                        // $status = htmlspecialchars($_POST['status']);
                         $address = htmlspecialchars($_POST['address']);
                         $dateOfBirth = htmlspecialchars($_POST['dateOfBirth']);
                         $gender = htmlspecialchars($_POST['gender']);
                         $bio = htmlspecialchars($_POST['bio']);
-                        
                         
                         // Kiểm tra và mã hóa mật khẩu nếu có thay đổi
                         if (!empty($_POST['password'])) {
@@ -578,7 +578,7 @@
                         }
                 
                         // Cập nhật dữ liệu người dùng vào cơ sở dữ liệu
-                        $result = updateUser_foruser($email, $password, $fullname, $phone, $profilePictureURL, $address, $dateOfBirth, $gender, $bio);
+                        $result = updateUser($userID, $email, $password, $fullname, $phone, $profilePictureURL, $address, $dateOfBirth, $gender, $bio);
                 
                         // Thông báo kết quả
                         if ($result) {
@@ -588,6 +588,9 @@
                         }
                     }
                 
+                    // Lấy lại danh sách người dùng
+                        $users = getUsers();
+                                   
                         include "views/profile.php";
                     break;
                 case 'mo_updateuser_foruser':

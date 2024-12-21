@@ -1,9 +1,7 @@
 <?php
-   if (session_status() === PHP_SESSION_NONE) {
+
     session_start();
     ob_start();
-    
-  }
     include_once "../model/connectdb.php";
     include_once "../model/user.php";
 
