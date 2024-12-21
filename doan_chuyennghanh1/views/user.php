@@ -92,7 +92,7 @@
                                         foreach ($users as $user) {
                                             // Xử lý URL hình đại diện, đảm bảo giá trị không bị null hoặc lỗi
                                             $profilePicture = isset($user['ProfilePictureURL']) && !empty($user['ProfilePictureURL']) 
-                                                ? 'uploads/' . htmlspecialchars($user['ProfilePictureURL']) 
+                                                ? 'uploads/profile_pictures/' . htmlspecialchars($user['ProfilePictureURL']) 
                                                 : 'https://via.placeholder.com/30';
 
                                             // Hiển thị từng người dùng
