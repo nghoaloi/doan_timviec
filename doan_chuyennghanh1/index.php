@@ -499,18 +499,22 @@
             
             switch ($_GET['act']) {
                 case 'home_can':
-                    
+                 
                     include "views/home_candidate.php";
                     break;
                 case 'joblisting_can':
-                    
+                    $_SESSION['UserID'];
                     include "views/job_listing_can.php";
                     break;
                 case 'profile_can':
                     $_SESSION['UserID'];
                     include "views/profile.php";
                     break;
-
+                case 'job_thongtin':
+                    $_SESSION['UserID'];
+                    $_SESSION['JobID'] = $_GET['jobid'];
+                    include "views/job_thongtin_can.php";
+                    break;
                 case 'updateuser_foruser':
                     if (isset($_POST['updateuser_foruser']) && ($_POST['updateuser_foruser'])) {
                         // Lấy dữ liệu từ form

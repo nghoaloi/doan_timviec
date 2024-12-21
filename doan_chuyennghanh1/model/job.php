@@ -32,7 +32,7 @@ function getJobs() {
     $conn = connectdb();
     // Thực hiện join giữa bảng jobs và bảng companies để lấy tên công ty
     $stmt = $conn->prepare("
-        SELECT jobs.*, companies.*
+        SELECT jobs.*, companies.CompanyName,companies.LogoURL
         FROM jobs 
         JOIN companies ON jobs.CompanyID = companies.CompanyID
     ");
@@ -44,8 +44,32 @@ function getJobs() {
 // Lấy thông tin công việc theo ID
 function getJobByID($jobID) {
     $conn = connectdb();
-    $stmt = $conn->prepare("SELECT * FROM jobs WHERE JobID = :jobID");
+    $stmt = $conn->prepare("SELECT jobs.*, companies.CompanyName,companies.LogoURL FROM jobs join companies ON jobs.CompanyID = companies.CompanyID WHERE JobID = :jobID");
     $stmt->bindParam(':jobID', $jobID, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+//lấy thông tin công việc đã apply
+
+function getJobByID_user($userid, $jobID) {
+    $conn = connectdb();
+    $stmt = $conn->prepare("SELECT savedjobs.*,jobs.*,companies.CompanyName,companies.LogoURL
+    FROM savedjobs 
+    JOIN jobs ON savedjobs.JobID = jobs.JobID
+    join companies ON jobs.CompanyID = companies.CompanyID
+    WHERE savedjobs.UserID = :userid AND jobs.JobID = :jobID");
+    $stmt->bindParam(':userid', $userid, PDO::PARAM_INT);
+    $stmt->bindParam(':jobID', $jobID, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+// lấy tất id công việc 
+function getallidjob_by_userid(){
+    $conn = connectdb();
+    $stmt = $conn->prepare("SELECT savedjobs.*,jobs.*
+    FROM savedjobs JOIN jobs ON savedjobs.JobID = jobs.JobID
+    WHERE savedjobs.UserID = :userid");
+    $stmt->bindParam(':userid', $userid, PDO::PARAM_INT);
     $stmt->execute();
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
