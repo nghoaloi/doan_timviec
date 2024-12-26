@@ -32,7 +32,7 @@ function getJobs() {
     $conn = connectdb();
     // Thực hiện join giữa bảng jobs và bảng companies để lấy tên công ty
     $stmt = $conn->prepare("
-        SELECT jobs.*, companies.CompanyName,companies.LogoURL
+        SELECT jobs.*,companies.CompanyName, companies.WebsiteURL,companies.Description,companies.LogoURL
         FROM jobs 
         JOIN companies ON jobs.CompanyID = companies.CompanyID
     ");
@@ -111,5 +111,6 @@ function updateJob($jobID, $companyID, $jobTitle, $jobDescription, $requirements
     $stmt->bindParam(':expiryDate', $expiryDate);
     return $stmt->execute();
 }
+// lấy thông tin công ty
 
 ?>

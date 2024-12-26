@@ -2,6 +2,7 @@
     
     $jobid = $_GET['jobid']??"";
     $job = getJobByID($jobid);  
+    
 ?>
 <!doctype php>
 <php class="no-js" lang="zxx">
@@ -75,6 +76,7 @@
                           </ul>
                          <div class="apply-btn2">
                             <a href="#" class="btn">Apply Now</a>
+
                          </div>
                        </div>
                         <div class="post-details4  mb-50">
@@ -82,12 +84,12 @@
                            <div class="small-section-tittle">
                                <h4>thông tin công ty</h4>
                            </div>
-                              <span>Colorlib</span>
-                              <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
+                              <span>mô tả</span>
+                              <p><?php echo htmlspecialchars($job['Description'] ?? ''); ?></p>
                             <ul>
-                                <li>tên : <span>Colorlib </span></li>
-                                <li>Web : <span> colorlib.com</span></li>
-                                <li>Email: <span>carrier.colorlib@gmail.com</span></li>
+                                <li>tên : <span><?php echo htmlspecialchars($job['CompanyName'] ?? ''); ?> </span></li>
+                                <li>Web : <span> <?php echo htmlspecialchars($job['WebsiteURL'] ?? ''); ?> </span></li>
+                
                             </ul>
                        </div>
                     </div>
