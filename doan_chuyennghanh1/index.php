@@ -17,67 +17,63 @@
         case 'user':
             include "views/user.php";
             break;
-        case 'user_add':
-            if (isset($_POST['adduser']) && ($_POST['adduser'])) {
-                $email = htmlspecialchars($_POST['email']);
-                $password = htmlspecialchars($_POST['password']);
-                $fullname = htmlspecialchars($_POST['fullname']);
-                $phone = htmlspecialchars($_POST['phone']);
-                $usertype = htmlspecialchars($_POST['usertype']);
-                $status = htmlspecialchars($_POST['status']);
-                $emailExists = checkEmailExists($email);
+            case 'user_add':
+                if (isset($_POST['adduser']) && ($_POST['adduser'])) {
+                    $email = htmlspecialchars($_POST['email']);
+                    $password = htmlspecialchars($_POST['password']);
+                    $fullname = htmlspecialchars($_POST['fullname']);
+                    $phone = htmlspecialchars($_POST['phone']);
+                    $usertype = htmlspecialchars($_POST['usertype']);
+                    $status = htmlspecialchars($_POST['status']);
+                    $emailExists = checkEmailExists($email);
             
                     // Mã hóa mật khẩu
-                $password = password_hash($password, PASSWORD_DEFAULT);
+                    $passwordHash = password_hash($password, PASSWORD_DEFAULT);
             
                     // Xử lý upload hình ảnh
-                $profilePictureURL = '';
-                $uploadOk = 1;
+                    $profilePicture = null; // Khởi tạo biến $profilePicture
+                    $uploadOk = 1;
             
-                if (isset($_FILES['profilePictureURL']) && $_FILES['profilePictureURL']['error'] == 0) {
-                    $target_dir = "uploads/";
-                    if (!is_dir($target_dir)) {
-                        mkdir($target_dir, 0777, true);
+                    if (isset($_FILES['profilePictureURL']) && $_FILES['profilePictureURL']['error'] === 0) {
+                        $profilePicture = $_FILES['profilePictureURL']; // Gán $_FILES vào $profilePicture
+                        $target_dir = "uploads/profile_pictures/"; // Đặt đường dẫn đầy đủ và tạo thư mục con
+                        if (!is_dir($target_dir)) {
+                            mkdir($target_dir, 0777, true);
+                        }
+            
+                        $fileExtension = strtolower(pathinfo($profilePicture["name"], PATHINFO_EXTENSION));
+            
+                        if (!in_array($fileExtension, ['jpg', 'jpeg', 'png', 'gif', 'webp'])) {
+                            echo "<script>alert('Chỉ cho phép các tệp JPG, JPEG, PNG, GIF, và WEBP.');</script>";
+                            $uploadOk = 0;
+                        }
+            
+                        if ($profilePicture["size"] > 5000000) {
+                            echo "<script>alert('Tệp quá lớn (tối đa 5MB).');</script>";
+                            $uploadOk = 0;
+                        }
                     }
-                    $unique_name = uniqid() . "_" . basename($_FILES["profilePictureURL"]["name"]);
-                    $target_file = $target_dir . $unique_name;
-                    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
             
-                    // Kiểm tra định dạng file
-                    if (!in_array($imageFileType, ['jpg', 'jpeg', 'png', 'gif', 'webp'])) {
-                        echo "<script>alert('Chỉ cho phép các tệp JPG, JPEG, PNG, GIF, và WEBP.');</script>";
-                        $uploadOk = 0;
-                    }
-            
-                    // Kiểm tra kích thước file
-                    if ($_FILES["profilePictureURL"]["size"] > 5000000) {
-                        echo "<script>alert('Tệp quá lớn (tối đa 5MB).');</script>";
-                        $uploadOk = 0;
-                    }
-            
-                    // Upload file
-                    if ($uploadOk == 1) {
-                        if (move_uploaded_file($_FILES["profilePictureURL"]["tmp_name"], $target_file)) {
-                            $profilePictureURL = $unique_name; // Lưu tên tệp ngẫu nhiên
+                    if ($emailExists) {
+                        echo "<script>alert('Email đã tồn tại!');</script>";
+                    } else {
+                        // Kiểm tra $uploadOk TRƯỚC khi gọi addUser
+                        if ($uploadOk == 1) {
+                            $result = addUser($email, $passwordHash, $fullname, $phone, $usertype, $status, $profilePicture);
                         } else {
-                            echo "<script>alert('Lỗi khi tải tệp lên.');</script>";
+                            // Nếu upload không thành công, vẫn thêm user nhưng không có ảnh
+                            $result = addUser($email, $passwordHash, $fullname, $phone, $usertype, $status, null);
+                        }
+            
+                        if ($result) {
+                            echo "<script>alert('Thêm người dùng thành công!');</script>";
+                        } else {
+                            echo "<script>alert('Có lỗi xảy ra khi thêm người dùng.');</script>";
                         }
                     }
                 }
-            
-                if ($emailExists) {
-                    echo "<script>alert('Email đã tồn tại!');</script>";
-                } else {
-                    $result = addUser($email, $password, $fullname, $phone, $usertype, $status, $profilePictureURL);
-                    if ($result) {
-                        echo "<script>alert('Thêm người dùng thành công!');</script>";
-                    } else {
-                        echo "<script>alert('Có lỗi xảy ra khi thêm người dùng.');</script>";
-                    }
-                }
-            }
-            include "views/user.php";
-            break;
+                include "views/user.php";
+                break;
         case 'user_search':
             if (isset($_POST['searchuser']) && ($_POST['searchuser'])) {
                 $search = $_POST['search'];
@@ -106,86 +102,114 @@
             }
             include "views/edit_user.php";
             break;
-        case 'user_update':
-            if (isset($_POST['updateuser']) && ($_POST['updateuser'])) {
-                 // Lấy dữ liệu từ form
-                $userID = htmlspecialchars($_POST['userid']);
-                $email = htmlspecialchars($_POST['email']);
-                $fullname = htmlspecialchars($_POST['fullname']);
-                $phone = htmlspecialchars($_POST['phone']);
-                // $status = htmlspecialchars($_POST['status']);
-                $address = htmlspecialchars($_POST['address']);
-                $dateOfBirth = htmlspecialchars($_POST['dateOfBirth']);
-                $gender = htmlspecialchars($_POST['gender']);
-                $bio = htmlspecialchars($_POST['bio']);
-                        
-                // Kiểm tra và mã hóa mật khẩu nếu có thay đổi
-                if (!empty($_POST['password'])) {
-                    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-                } else {
-                    $password = $_POST['currentPassword']; // Sử dụng mật khẩu cũ nếu không nhập mới
+            case 'user_update':
+                if (isset($_POST['updateuser']) && ($_POST['updateuser'])) {
+                    // Lấy dữ liệu từ form
+                    $userID = htmlspecialchars($_POST['userid']);
+                    $email = htmlspecialchars($_POST['email']);
+                    $fullname = htmlspecialchars($_POST['fullname']);
+                    $phone = htmlspecialchars($_POST['phone']);
+                    $usertype = htmlspecialchars($_POST['usertype']);
+                    $status = htmlspecialchars($_POST['status']);
+                    $address = htmlspecialchars($_POST['address']);
+                    $dateOfBirth = htmlspecialchars($_POST['dateOfBirth']);
+                    $gender = htmlspecialchars($_POST['gender']);
+                    $bio = htmlspecialchars($_POST['bio']);
+                    // Kiểm tra dữ liệu bắt buộc
+    if (empty($userID) || empty($email) || empty($fullname)) {
+        echo "<script>alert('Vui lòng điền đầy đủ thông tin bắt buộc.');</script>";
+        include "views/user.php";
+        break;
+    }
+
+    // Kiểm tra định dạng email
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo "<script>alert('Email không hợp lệ.');</script>";
+        include "views/user.php";
+        break;
+    }
+
+    // Kiểm tra userID hợp lệ
+    if ($userID === false) {
+        echo "<script>alert('ID người dùng không hợp lệ.');</script>";
+        include "views/user.php";
+        break;
+    }
+
+    // 2. Xử lý mật khẩu
+    $password = null;
+    if (!empty($_POST['password'])) {
+        $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    }
+
+    // 3. Xử lý upload ảnh
+    $profilePictureURL = $_POST['currentProfilePictureURL']; // Giá trị mặc định là ảnh cũ
+    $uploadOk = true;
+    $newFileName = null; // Khởi tạo biến này
+
+    if (isset($_FILES['profilePictureURL']) && $_FILES['profilePictureURL']['error'] === UPLOAD_ERR_OK) {
+        $profilePicture = $_FILES['profilePictureURL'];
+        $targetDir = "uploads/profile_pictures/";
+
+        // Tạo thư mục nếu chưa tồn tại
+        if (!is_dir($targetDir) && !mkdir($targetDir, 0755, true)) {
+            echo "<script>alert('Lỗi khi tạo thư mục upload.');</script>";
+            $uploadOk = false;
+        }
+
+        if ($uploadOk) {
+            $allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+            $fileMimeType = mime_content_type($profilePicture['tmp_name']);
+
+            if (!in_array($fileMimeType, $allowedMimeTypes)) {
+                echo "<script>alert('Định dạng tệp không được phép.');</script>";
+                $uploadOk = false;
+            }
+
+            if ($profilePicture["size"] > 5000000) {
+                echo "<script>alert('Tệp quá lớn (tối đa 5MB).');</script>";
+                $uploadOk = false;
+            }
+
+            if ($uploadOk) {
+                $fileExtension = strtolower(pathinfo($profilePicture["name"], PATHINFO_EXTENSION));
+                $timestamp = time();
+                $date = date('Ymd', $timestamp);
+                $newFileName = $userID . '_' . $timestamp . '_' . $date . '.' . $fileExtension;
+                $targetFile = $targetDir . $newFileName;
+
+                if (file_exists($targetFile)) {
+                    echo "<script>alert('Tệp đã tồn tại.');</script>";
+                    $uploadOk = false;
                 }
-                
-                // Xử lý ảnh đại diện
-                $profilePictureURL = $_POST['currentProfilePictureURL']; // Ảnh cũ mặc định
-                $uploadOk = 1; // Đảm bảo biến $uploadOk được khởi tạo
-                
-                if (isset($_FILES['profilePictureURL']) && $_FILES['profilePictureURL']['error'] === UPLOAD_ERR_OK) {
-                    $target_dir = "uploads/"; // Thư mục lưu file
-                    if (!is_dir($target_dir)) {
-                        mkdir($target_dir, 0777, true); // Tạo thư mục nếu chưa tồn tại
+
+                if ($uploadOk && !move_uploaded_file($profilePicture['tmp_name'], $targetFile)) {
+                    echo "<script>alert('Lỗi khi tải tệp lên.');</script>";
+                    $uploadOk = false;
+                } else if ($uploadOk){
+                    // Xóa ảnh cũ nếu upload thành công và ảnh cũ khác rỗng
+                    if (!empty($profilePictureURL) && file_exists("uploads/profile_pictures/" . $profilePictureURL)) {
+                        unlink("uploads/profile_pictures/" . $profilePictureURL);
                     }
-                
-                    // Định dạng tên file
-                    $unique_name = uniqid() . "_" . basename($_FILES["profilePictureURL"]["name"]);
-                    $target_file = $target_dir . $unique_name;
-                
-                    // Kiểm tra định dạng file
-                    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-                    $allowed_file_types = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
-                    if (!in_array($imageFileType, $allowed_file_types)) {
-                        echo "<script>alert('Chỉ cho phép các tệp JPG, JPEG, PNG, GIF và WEBP.');</script>";
-                        $uploadOk = 0;
-                    }
-                
-                    // Kiểm tra kích thước file (tối đa 5MB)
-                    if ($_FILES["profilePictureURL"]["size"] > 5000000) {
-                        echo "<script>alert('Tệp quá lớn (tối đa 5MB).');</script>";
-                        $uploadOk = 0;
-                    }
-                
-                    // Nếu không có lỗi, xử lý upload và xóa ảnh cũ
-                    if ($uploadOk == 1) {
-                        if (!empty($profilePictureURL) && file_exists("uploads/" . $profilePictureURL)) {
-                            unlink("uploads/" . $profilePictureURL); // Xóa ảnh cũ
-                        }
-                        if (move_uploaded_file($_FILES["profilePictureURL"]["tmp_name"], $target_file)) {
-                            $profilePictureURL = $unique_name; // Cập nhật tên file mới
-                        } else {
-                            echo "<script>alert('Lỗi khi tải file lên. Vui lòng thử lại.');</script>";
-                            return;
-                        }
-                    }
-                } elseif ($_FILES['profilePictureURL']['error'] !== UPLOAD_ERR_NO_FILE) {
-                    echo "<script>alert('Có lỗi xảy ra khi tải tệp lên.');</script>";
-                    return;
-                }
-                
-                // Cập nhật dữ liệu người dùng vào cơ sở dữ liệu
-                $result = updateUser($userID, $email, $password, $fullname, $phone, $profilePictureURL, $address, $dateOfBirth, $gender, $bio);
-                
-                // Thông báo kết quả
-                if ($result) {
-                    echo "<script>alert('Cập nhật người dùng thành công!');</script>";
-                } else {
-                    echo "<script>alert('Có lỗi xảy ra khi cập nhật người dùng. Vui lòng kiểm tra thông tin nhập vào.');</script>";
                 }
             }
-                
-                // Lấy lại danh sách người dùng
-            $users = getUsers();
-            include "views/user.php";
-            break;                           
+        }
+    }
+    $profilePictureURL = $uploadOk && $newFileName !== null ? $newFileName : $profilePictureURL;
+    // 4. Gọi hàm updateUser nếu không có lỗi upload
+    if ($uploadOk) {
+        $result = updateUser($userID, $email, $password, $fullname, $phone, $usertype, $status, $profilePictureURL, $address, $dateOfBirth, $gender, $bio);
+        if ($result) {
+            echo "<script>alert('Cập nhật người dùng thành công!');</script>";
+        } else {
+            echo "<script>alert('Có lỗi xảy ra khi cập nhật người dùng.');</script>";
+        }
+    }
+}
+
+$users = getUsers();
+include "views/user.php";
+break;                            
         // Xử lý thêm công ty
         case 'company':
             include "views/company.php";
@@ -645,7 +669,7 @@
                         }
                 
                         // Cập nhật dữ liệu người dùng vào cơ sở dữ liệu
-                        $result = updateUser($userID, $email, $password, $fullname, $phone, $profilePictureURL, $address, $dateOfBirth, $gender, $bio);
+                        $result = updateUser1($userID, $email, $password, $fullname, $phone, $profilePictureURL, $address, $dateOfBirth, $gender, $bio);
                 
                         // Thông báo kết quả
                         if ($result) {

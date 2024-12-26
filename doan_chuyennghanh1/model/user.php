@@ -149,7 +149,7 @@ function del_user($id) {
     return $stmt->execute();
 }
 
-function updateUser($userID, $email, $password, $fullname, $phone, $profilePictureURL, $address, $dateOfBirth, $gender, $bio) {
+function updateUser1($userID, $email, $password, $fullname, $phone, $profilePictureURL, $address, $dateOfBirth, $gender, $bio) {
     $conn = connectdb();
     $conn->beginTransaction();
 
@@ -224,6 +224,68 @@ function updateUser($userID, $email, $password, $fullname, $phone, $profilePictu
     $stmt->bindParam(':bio', $bio);
 
     return $stmt->execute();
+}
+
+function updateUser($userID, $email, $password, $fullname, $phone, $usertype, $status, $profilePictureURL, $address, $dateOfBirth, $gender, $bio) {
+    $conn = connectdb();
+    $conn->beginTransaction();
+
+    try {
+        $stmtSelect = $conn->prepare("SELECT ProfilePictureURL FROM users WHERE UserID = :userID");
+        $stmtSelect->bindParam(':userID', $userID, PDO::PARAM_INT);
+        $stmtSelect->execute();
+        $currentProfilePicture = $stmtSelect->fetchColumn();
+
+        $hashed_password = null;
+        if (!empty($password)) {
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+        }
+
+        $sql = "UPDATE users SET Email = :email, FullName = :fullname, PhoneNumber = :phone, UserType = :usertype, UserStatus = :status, Address = :address, DateOfBirth = :dateOfBirth, Gender = :gender, Bio = :bio, UpdatedAt = NOW()";
+
+        if ($hashed_password !== null) {
+            $sql .= ", PasswordHash = :password";
+        }
+        if ($profilePictureURL !== null) {
+            $sql .= ", ProfilePictureURL = :profilePictureURL";
+        }
+
+        $sql .= " WHERE UserID = :userID";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindParam(':userID', $userID, PDO::PARAM_INT);
+        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+        $stmt->bindParam(':fullname', $fullname, PDO::PARAM_STR);
+        $stmt->bindParam(':phone', $phone, PDO::PARAM_STR);
+        $stmt->bindParam(':usertype', $usertype, PDO::PARAM_STR);
+        $stmt->bindParam(':status', $status, PDO::PARAM_STR);
+        $stmt->bindParam(':address', $address, PDO::PARAM_STR);
+        $stmt->bindParam(':dateOfBirth', $dateOfBirth, PDO::PARAM_STR);
+        $stmt->bindParam(':gender', $gender, PDO::PARAM_STR);
+        $stmt->bindParam(':bio', $bio, PDO::PARAM_STR);
+
+        if ($hashed_password !== null) {
+            $stmt->bindParam(':password', $hashed_password, PDO::PARAM_STR);
+        }
+        if ($profilePictureURL !== null) {
+            $stmt->bindParam(':profilePictureURL', $profilePictureURL, PDO::PARAM_STR);
+        }
+
+        if (!$stmt->execute()) {
+            $errorInfo = $stmt->errorInfo();
+            throw new Exception("Lỗi khi cập nhật người dùng: " . $errorInfo[2]);
+        }
+
+        $conn->commit();
+        return true;
+
+    } catch (Exception $e) {
+        $conn->rollBack();
+        error_log($e->getMessage());
+        echo "<script>alert('" . htmlspecialchars($e->getMessage()) . "');</script>";
+        return false;
+    }
 }
 
 function updateUser_foruser($email,$hashed_password,$fullname,$phone,$profilePictureURL,$address,$dateOfBirth,$gender,$bio){

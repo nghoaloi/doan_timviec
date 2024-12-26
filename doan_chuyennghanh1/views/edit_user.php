@@ -14,6 +14,14 @@ if (isset($user)) {
     $bio = $user['Bio'];
 }
 ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chỉnh sửa thông tin người dùng</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css">
+</head>
 <body>
 <div class="container mt-5">
     <h2 class="text-center mb-4">Chỉnh sửa thông tin người dùng</h2>
@@ -45,8 +53,23 @@ if (isset($user)) {
                     <input type="tel" name="phone" id="phone" class="form-control" value="<?php echo $phone; ?>">
                 </div>
                 
-                
-                
+                <div class="mb-3">
+                    <label for="usertype" class="form-label">Loại người dùng:</label>
+                    <select name="usertype" id="usertype" class="form-select">
+                        <option value="candidate" <?php echo $userType == 'candidate' ? 'selected' : ''; ?>>Ứng viên</option>
+                        <option value="employer" <?php echo $userType == 'employer' ? 'selected' : ''; ?>>Nhà tuyển dụng</option>
+                        <option value="admin" <?php echo $userType == 'admin' ? 'selected' : ''; ?>>Admin</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="status" class="form-label">Trạng thái:</label>
+                    <select name="status" id="status" class="form-select">
+                        <option value="active" <?php echo $status == 'active' ? 'selected' : ''; ?>>Hoạt động</option>
+                        <option value="inactive" <?php echo $status == 'inactive' ? 'selected' : ''; ?>>Không hoạt động</option>
+                    </select>
+                </div>
+
                 <div class="mb-3">
                     <label for="profilePictureURL" class="form-label">Hình đại diện:</label>
                     <div class="d-flex align-items-center">
@@ -75,7 +98,7 @@ if (isset($user)) {
                     <select name="gender" id="gender" class="form-select">
                         <option value="Male" <?php echo $gender == 'Male' ? 'selected' : ''; ?>>Nam</option>
                         <option value="Female" <?php echo $gender == 'Female' ? 'selected' : ''; ?>>Nữ</option>
-                        </select>
+                    </select>
                 </div>
 
                 <div class="mb-3">
