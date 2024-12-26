@@ -1,6 +1,7 @@
 <?php
    $userid =  $_SESSION['UserID'];     
    $user = getUserByID($userid);
+   $user = getUserByID($userid);
 ?>
 <section class="mt-5 pt-5">
     <div class="container-fluid py-5 mb-5 mt-5">

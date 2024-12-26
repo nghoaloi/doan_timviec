@@ -150,29 +150,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
     
 
-        <!-- <h2 class="text-center"> Thông tin công ty</h2>
-        <div class="mb-3">
-            <label for="tentc" class="form-label">Tên công ty</label>
-            <input class="form-control" type="text" id="tenct" placeholder="Nhập tên công ty">
-            <div id="repasswordError" style="color: red; display: none;">Tên công ty không dược để trống </div>
-        </div>
-        <div class="mb-3">
-            <label for="sonhanvien" class="form-label">Số nhân viên</label>
-            <input class="form-control" type="text" id="sonhanvien" placeholder="Nhập số lượng nhân viên">
-            <div id="repasswordError" style="color: red; display: none;">Số lượng nhân viên không được để trống </div>
-        </div>
-        <label for="địa chỉ" class="form-label">Địa chỉ</label>
-        <div class="mb-3">
-            <select display: inline-block name="quocgia" id="" >
-                  <option value="viecnam" >Việt Nam</option>
-            </select>
-            <select display: inline-block name="tinh" id="" >
-                  <option value="" >Chọn tỉnh/ Thành phố</option>
-            </select>
-            <select display: inline-block name="quan" id="" >
-                  <option value="" >chọn quận huyện</option>
-            </select>
-        </div> -->
         <div>
         <input type="submit" class="btn btn-success" style="width: 100%;" name="register" value="Đăng ký">
     </div>

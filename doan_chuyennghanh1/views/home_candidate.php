@@ -3,43 +3,6 @@
       <div class="slider-area">
         <!-- Mobile Menu -->
         <div class="slider-active">
-          <div
-            class="single-slider slider-height d-flex align-items-center"
-            data-background="assets/img/hero/h1_hero.jpg"
-          >
-            <div class="container">
-              <div class="row">
-                <div class="col-xl-6 col-lg-9 col-md-10">
-                  <div class="hero__caption">
-                    <h1>Find the most exciting startup jobs</h1>
-                  </div>
-                </div>
-              </div>
-              <!-- Search Box -->
-              <div class="row">
-                <div class="col-xl-8">
-                  <!-- form -->
-                  <form action="#" class="search-box">
-                    <div class="input-form">
-                      <input type="text" placeholder="Job Tittle or keyword" />
-                    </div>
-                    <div class="select-form">
-                      <div class="select-itms">
-                        <select name="select" id="select1">
-                          <option value="">Location BD</option>
-                          <option value="">Location PK</option>
-                          <option value="">Location US</option>
-                          <option value="">Location UK</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="search-form">
-                      <a href="#">Find job</a>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -48,20 +11,12 @@
       <div class="our-services section-pad-t30">
         <div class="container">
           <!-- Section Tittle -->
-          <div class="row">
-            <div class="col-lg-12">
-              <div class="section-tittle text-center">
-                <span>FEATURED TOURS Packages</span>
-                <h2>Browse Top Categories</h2>
-              </div>
-            </div>
-          </div>
           <div class="row d-flex justify-contnet-center">
             <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
               <div class="single-services text-center mb-30">
                 <div class="services-ion">
                   <span class="flaticon-tour"></span>
-                </div>
+                </div>  
                 <div class="services-cap">
                   <h5><a href="job_listing.php">Design & Creative</a></h5>
                   <span>(653)</span>
@@ -161,21 +116,7 @@
       </div>
       <!-- Our Services End -->
       <!-- Online CV Area Start -->
-      <div
-        class="online-cv cv-bg section-overly pt-90 pb-120"
-        data-background="assets/img/gallery/cv_bg.jpg"
-      >
-        <div class="container">
-          <div class="row justify-content-center">
-            <div class="col-xl-10">
-              <div class="cv-caption text-center">
-                <p class="pera1">FEATURED TOURS Packages</p>
-                <p class="pera2">Make a Difference with Your Online Resume!</p>
-                <a href="#" class="border-btn2 border-btn4">Upload your cv</a>
-              </div>
-            </div>
-          </div>
-        </div>
+      
       </div>
       <!-- Online CV Area End-->
       <!-- Featured_job_start -->
@@ -185,109 +126,42 @@
           <div class="row">
             <div class="col-lg-12">
               <div class="section-tittle text-center">
-                <span>Recent Job</span>
-                <h2>Featured Jobs</h2>
+                <span>Công việc gần đây</span>
+                <h2>Việc làm nổi bật</h2>
               </div>
             </div>
           </div>
           <div class="row justify-content-center">
             <div class="col-xl-10">
-              <!-- single-job-content -->
-              <div class="single-job-items mb-30">
-                <div class="job-items">
-                  <div class="company-img">
-                    <a href="job_details.php"
-                      ><img src="assets/img/icon/job-list1.png" alt=""
-                    /></a>
-                  </div>
-                  <div class="job-tittle">
-                    <a href="job_details.php"><h4>Digital Marketer</h4></a>
-                    <ul>
-                      <li>Creative Agency</li>
-                      <li>
-                        <i class="fas fa-map-marker-alt"></i>Athens, Greece
-                      </li>
-                      <li>$3500 - $4000</li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="items-link f-right">
-                  <a href="job_details.php">Full Time</a>
-                  <span>7 hours ago</span>
-                </div>
-              </div>
-              <!-- single-job-content -->
-              <div class="single-job-items mb-30">
-                <div class="job-items">
-                  <div class="company-img">
-                    <a href="job_details.php"
-                      ><img src="assets/img/icon/job-list2.png" alt=""
-                    /></a>
-                  </div>
-                  <div class="job-tittle">
-                    <a href="job_details.php"><h4>Digital Marketer</h4></a>
-                    <ul>
-                      <li>Creative Agency</li>
-                      <li>
-                        <i class="fas fa-map-marker-alt"></i>Athens, Greece
-                      </li>
-                      <li>$3500 - $4000</li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="items-link f-right">
-                  <a href="job_details.php">Full Time</a>
-                  <span>7 hours ago</span>
-                </div>
-              </div>
-              <!-- single-job-content -->
-              <div class="single-job-items mb-30">
-                <div class="job-items">
-                  <div class="company-img">
-                    <a href="job_details.php"
-                      ><img src="assets/img/icon/job-list3.png" alt=""
-                    /></a>
-                  </div>
-                  <div class="job-tittle">
-                    <a href="job_details.php"><h4>Digital Marketer</h4></a>
-                    <ul>
-                      <li>Creative Agency</li>
-                      <li>
-                        <i class="fas fa-map-marker-alt"></i>Athens, Greece
-                      </li>
-                      <li>$3500 - $4000</li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="items-link f-right">
-                  <a href="job_details.php">Full Time</a>
-                  <span>7 hours ago</span>
-                </div>
-              </div>
-              <!-- single-job-content -->
-              <div class="single-job-items mb-30">
-                <div class="job-items">
-                  <div class="company-img">
-                    <a href="job_details.php"
-                      ><img src="assets/img/icon/job-list4.png" alt=""
-                    /></a>
-                  </div>
-                  <div class="job-tittle">
-                    <a href="job_details.php"><h4>Digital Marketer</h4></a>
-                    <ul>
-                      <li>Creative Agency</li>
-                      <li>
-                        <i class="fas fa-map-marker-alt"></i>Athens, Greece
-                      </li>
-                      <li>$3500 - $4000</li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="items-link f-right">
-                  <a href="job_details.php">Full Time</a>
-                  <span>7 hours ago</span>
-                </div>
-              </div>
+            <?php
+                               
+                               $jobs = getJobs(); // Lấy tất cả danh sách công việc
+                               foreach ($jobs as $job) {
+                                   echo '<div class="single-job-items mb-30">
+                                           <div class="job-items">
+                                               <div class="company-img" >
+                                                   <a href="index.php?act=job_thongtin&jobid='. htmlspecialchars($job['JobID']) .'"  ><img src="uploads/' . htmlspecialchars($job['LogoURL']) . ' " alt=""></a>
+                                               </div>
+
+                                               <div class="job-tittle job-tittle2">
+                                                   <a href="#">
+                                                       <h4>' . htmlspecialchars($job['JobTitle']) . ' </h4>
+                                                   </a>
+                                                   <ul>
+                                                       <li>' . htmlspecialchars($job['CompanyName']) . '</li>
+                                                       <li><i class="fas fa-map-marker-alt"></i>' . htmlspecialchars($job['Location']) . '</li>
+                                                       <li>' . htmlspecialchars($job['SalaryRange']) . '</li>
+                                                   </ul>
+                                               </div>
+                                               </div>
+                                               <div class="items-link items-link2 f-right">
+                                               <a href="#">' . htmlspecialchars($job['EmploymentType']) . '</a>
+                                               <!-- <span>7 hours ago</span> -->
+                                               </div>
+                                         </div>';
+                               }
+                               ?>
+                                                    
             </div>
           </div>
         </div>
@@ -303,8 +177,8 @@
           <div class="row">
             <div class="col-lg-12">
               <div class="section-tittle white-text text-center">
-                <span>Apply process</span>
-                <h2>How it works</h2>
+                <span>quá trình xin việc</span>
+                <h2>cách hoạt động</h2>
               </div>
             </div>
           </div>
@@ -316,7 +190,7 @@
                   <span class="flaticon-search"></span>
                 </div>
                 <div class="process-cap">
-                  <h5>1. Search a job</h5>
+                  <h5>1. tìm việc</h5>
                   <p>
                     Sorem spsum dolor sit amsectetur adipisclit, seddo eiusmod
                     tempor incididunt ut laborea.
@@ -330,7 +204,7 @@
                   <span class="flaticon-curriculum-vitae"></span>
                 </div>
                 <div class="process-cap">
-                  <h5>2. Apply for job</h5>
+                  <h5>2. nộp đơn</h5>
                   <p>
                     Sorem spsum dolor sit amsectetur adipisclit, seddo eiusmod
                     tempor incididunt ut laborea.
@@ -344,7 +218,7 @@
                   <span class="flaticon-tour"></span>
                 </div>
                 <div class="process-cap">
-                  <h5>3. Get your job</h5>
+                  <h5>3. chờ xét duyểt</h5>
                   <p>
                     Sorem spsum dolor sit amsectetur adipisclit, seddo eiusmod
                     tempor incididunt ut laborea.
@@ -357,68 +231,6 @@
       </div>
       <!-- How  Apply Process End-->
 
-      <!-- Blog Area Start -->
-      <div class="home-blog-area blog-h-padding">
-        <div class="container">
-          <!-- Section Tittle -->
-          <div class="row">
-            <div class="col-lg-12">
-              <div class="section-tittle text-center">
-                <span>Our latest blog</span>
-                <h2>Our recent news</h2>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-xl-6 col-lg-6 col-md-6">
-              <div class="home-blog-single mb-30">
-                <div class="blog-img-cap">
-                  <div class="blog-img">
-                    <img src="assets/img/blog/home-blog1.jpg" alt="" />
-                    <!-- Blog date -->
-                    <div class="blog-date text-center">
-                      <span>24</span>
-                      <p>Now</p>
-                    </div>
-                  </div>
-                  <div class="blog-cap">
-                    <p>| Properties</p>
-                    <h3>
-                      <a href="single-blog.php"
-                        >Footprints in Time is perfect House in Kurashiki</a
-                      >
-                    </h3>
-                    <a href="#" class="more-btn">Read more Â»</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-6 col-lg-6 col-md-6">
-              <div class="home-blog-single mb-30">
-                <div class="blog-img-cap">
-                  <div class="blog-img">
-                    <img src="assets/img/blog/home-blog2.jpg" alt="" />
-                    <!-- Blog date -->
-                    <div class="blog-date text-center">
-                      <span>24</span>
-                      <p>Now</p>
-                    </div>
-                  </div>
-                  <div class="blog-cap">
-                    <p>| Properties</p>
-                    <h3>
-                      <a href="single-blog.php"
-                        >Footprints in Time is perfect House in Kurashiki</a
-                      >
-                    </h3>
-                    <a href="#" class="more-btn">Read more Â»</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Blog Area End -->
+                               
     </main>
 

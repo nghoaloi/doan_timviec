@@ -1,9 +1,7 @@
 <?php
-   if (session_status() === PHP_SESSION_NONE) {
+
     session_start();
     ob_start();
-    
-  }
     include_once "../model/connectdb.php";
     include_once "../model/user.php";
 
@@ -15,6 +13,7 @@
         if (password_verify($pass, $user['PasswordHash'])){
         $_SESSION['UserType'] = $user['UserType'];
         $_SESSION['FullName'] = $user['FullName']; // Lưu tên người dùng vào session
+        $_SESSION['ProfilePictureURL']=$user['ProfilePictureURL'];
         $_SESSION['UserID']= $user['UserID'];
         $_SESSION['UserStatus']= $user['UserStatus'];
         $_SESSION['ProfilePictureURL']= $user['ProfilePictureURL'];   
@@ -142,7 +141,7 @@
             <input type="submit" class="btn btn-success" style="width: 100%;" name="login" value="Đăng nhập">
         </div>
         <p class="text-center mt-2">
-            Bạn chưa có tài khoản? <a href="index?act=register_nguoitim" >Đăng ký</a>
+            Bạn chưa có tài khoản? <a href="register_nguoitim.php" >Đăng ký</a>
         </p>
         
       </form>

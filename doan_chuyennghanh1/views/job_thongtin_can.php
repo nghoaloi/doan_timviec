@@ -1,88 +1,13 @@
+<?php
+    
+    $jobid = $_GET['jobid']??"";
+    $job = getJobByID($jobid);  
+
+?>
 <!doctype php>
 <php class="no-js" lang="zxx">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
-         <title>Job board php-5 Template </title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="manifest" href="site.webmanifest">
-		<link rel="shortcut icon" type="image/x-icon" href="../assets/img/favicon.ico">
-
-		<!-- CSS here -->
-            <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
-            <link rel="stylesheet" href="../assets/css/owl.carousel.min.css">
-            <link rel="stylesheet" href="../assets/css/flaticon.css">
-            <link rel="stylesheet" href="../assets/css/slicknav.css">
-            <link rel="stylesheet" href="../assets/css/price_rangs.css">
-            <link rel="stylesheet" href="../assets/css/animate.min.css">
-            <link rel="stylesheet" href="../assets/css/magnific-popup.css">
-            <link rel="stylesheet" href="../assets/css/fontawesome-all.min.css">
-            <link rel="stylesheet" href="../assets/css/themify-icons.css">
-            <link rel="stylesheet" href="../assets/css/slick.css">
-            <link rel="stylesheet" href="../assets/css/nice-select.css">
-            <link rel="stylesheet" href="../assets/css/style.css">
-   </head>
-
    <body>
-    <!-- Preloader Start -->
-    <div id="preloader-active">
-        <div class="preloader d-flex align-items-center justify-content-center">
-            <div class="preloader-inner position-relative">
-                <div class="preloader-circle"></div>
-                <div class="preloader-img pere-text">
-                    <img src="../assets/img/logo/logo.png" alt="">
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Preloader Start -->
-    <header>
-        <!-- Header Start -->
-       <div class="header-area header-transparrent">
-           <div class="headder-top header-sticky">
-                <div class="container">
-                    <div class="row align-items-center">
-                        <div class="col-lg-3 col-md-2">
-                            <!-- Logo -->
-                            <div class="logo">
-                                <a href="home.php"><img src="../assets/img/logo/logo.png" alt=""></a>
-                            </div>  
-                        </div>
-                        <div class="col-lg-9 col-md-9">
-                            <div class="menu-wrapper">
-                                <!-- Main-menu -->
-                                <div class="main-menu">
-                                    <nav class="d-none d-lg-block">
-                                        <ul id="navigation">
-                                            <li><a href="home.php">Home</a></li>
-                                            <li><a href="job_listing.php">Find a Jobs </a></li>
-                                            <li><a href="about.php">About</a></li>
-                                            
-                                        
-                                            <li><a href="contact.php">Contact</a></li>
-                                        </ul>
-                                    </nav>
-                                </div>          
-                                <!-- Header-btn -->
-                                <div class="header-btn d-none f-right d-lg-block">
-                                    <a href="#" class="btn head-btn1">Register</a>
-                                    <a href="#" class="btn head-btn2">Login</a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Mobile Menu -->
-                        <div class="col-12">
-                            <div class="mobile_menu d-block d-lg-none"></div>
-                        </div>
-                    </div>
-                </div>
-           </div>
-       </div>
-        <!-- Header End -->
-    </header>
     <main>
-
         <!-- Hero Area Start-->
         <div class="slider-area ">
         
@@ -97,16 +22,16 @@
                         <div class="single-job-items mb-50">
                             <div class="job-items">
                                 <div class="company-img company-img-details">
-                                    <a href="#"><img src="../assets/img/icon/job-list1.png" alt=""></a>
+                                    <a href="index.php?act=job_thongtin&jobid='<?php echo htmlspecialchars($job['JobID']) ?>"><img src="uploads/<?php echo htmlspecialchars($job['LogoURL'] ??'');?>" alt=""></a>
                                 </div>
                                 <div class="job-tittle">
                                     <a href="#">
-                                        <h4>Digital Marketer</h4>
+                                        <h4><?php echo htmlspecialchars($job['JobTitle'] ?? ''); ?></h4>
                                     </a>
                                     <ul>
-                                        <li>Creative Agency</li>
-                                        <li><i class="fas fa-map-marker-alt"></i>Athens, Greece</li>
-                                        <li>$3500 - $4000</li>
+                                        <li><?php echo htmlspecialchars($job['CompanyName'] ?? ''); ?></li>
+                                        <li><i class="fas fa-map-marker-alt"></i><?php echo htmlspecialchars($job['Location'] ?? ''); ?></li>
+                                        <li><?php echo htmlspecialchars($job['SalaryRange'] ?? ''); ?></li>
                                     </ul>
                                 </div>
                             </div>
@@ -119,7 +44,7 @@
                                 <div class="small-section-tittle">
                                     <h4>Job Description</h4>
                                 </div>
-                                <p>It is a long established fact that a reader will beff distracted by vbthe creadable content of a page when looking at its layout. The pointf of using Lorem Ipsum is that it has ahf mcore or-lgess normal distribution of letters, as opposed to using, Content here content here making it look like readable.</p>
+                                <p><?php echo htmlspecialchars($job['JobDescription'] ?? ''); ?></p>
                             </div>
                             <div class="post-details2  mb-50">
                                  <!-- Small Section Tittle -->
@@ -127,26 +52,54 @@
                                     <h4>Required Knowledge, Skills, and Abilities</h4>
                                 </div>
                                <ul>
-                                   <li>System Software Development</li>
-                                   <li>Mobile Applicationin iOS/Android/Tizen or other platform</li>
-                                   <li>Research and code , libraries, APIs and frameworks</li>
-                                   <li>Strong knowledge on software development life cycle</li>
-                                   <li>Strong problem solving and debugging skills</li>
+                                   <li><?php echo htmlspecialchars($job['Requirements'] ?? ''); ?></li>
+                                   
                                </ul>
-                            </div>
-                            <div class="post-details2  mb-50">
-                                 <!-- Small Section Tittle -->
-                                <div class="small-section-tittle">
-                                    <h4>Education + Experience</h4>
+                               <br>
+                               <br>
+                               <div class="small-section-tittle">
+                                <?php
+                                $companyid = htmlspecialchars($job['CompanyID']);
+                                $reviews = getCompanyReviews($companyid);
+                                ?>
+                               <h3>Reviews for Company</h3>
+                                    <?php if (count($reviews) > 0): ?>
+                                        <?php foreach ($reviews as $review): ?>
+                                            <div class="review">
+                                                <div class="review-header">
+                                                    <strong><?php echo htmlspecialchars($review['FullName']); ?></strong> - 
+                                                    <span>Rating: <?php echo $review['Rating']; ?>/5</span>
+                                                </div>
+                                                <div class="review-text">
+                                                    <p><?php echo nl2br(htmlspecialchars($review['ReviewText'])); ?></p>
+                                                </div>
+                                                <div class="review-date">
+                                                    <small>Reviewed on: <?php echo date("F j, Y, g:i a", strtotime($review['CreatedAt'])); ?></small>
+                                                </div>
+                                            </div>
+                                        <?php endforeach; ?>
+                                    <?php else: ?>
+                                        <p>No reviews yet for this company.</p>
+                                    <?php endif; ?>
+                                    <form method="POST" action="index.php?act=themreview">
+                                        
+                                        <input type="hidden" name="companyID" value="<?php echo htmlspecialchars($job['CompanyID'] ?? '') ?>">
+                                        <input type="hidden" name="userID" value="<?php echo $_SESSION['UserID']; ?>">
+                                       
+                                        
+
+                                        <label for="rating">Rating (1-5):</label>
+                                        <input type="number" id="rating" name="rating" min="1" max="5" required><br>
+
+                                        <label for="reviewText">Review Text:</label><br>
+                                        <textarea id="reviewText" name="reviewText" required></textarea><br>
+
+                                        <button type="submit">Submit Review</button>
+                                    </form>
+
                                 </div>
-                               <ul>
-                                   <li>3 or more years of professional design experience</li>
-                                   <li>Direct response email experience</li>
-                                   <li>Ecommerce website design experience</li>
-                                   <li>Familiarity with mobile and web apps preferred</li>
-                                   <li>Experience using Invision a plus</li>
-                               </ul>
                             </div>
+                        
                         </div>
 
                     </div>
@@ -158,28 +111,32 @@
                                <h4>Job Overview</h4>
                            </div>
                           <ul>
-                              <li>Posted date : <span>12 Aug 2019</span></li>
-                              <li>Location : <span>New York</span></li>
-                              <li>Vacancy : <span>02</span></li>
-                              <li>Job nature : <span>Full time</span></li>
-                              <li>Salary :  <span>$7,800 yearly</span></li>
-                              <li>Application date : <span>12 Sep 2020</span></li>
+                              <li>ngày đăng : <span><?php echo htmlspecialchars($job['PostedDate'] ?? ''); ?></span></li>
+                              <li>đia chỉ : <span><?php echo htmlspecialchars($job['Location'] ?? ''); ?></span></li>               
+                              <li>loại công việc : <span><?php echo htmlspecialchars($job['JobTitle'] ?? ''); ?></span></li>
+                              <li>Salary :  <span><?php echo htmlspecialchars($job['SalaryRange'] ?? ''); ?></span></li>
+                              <li>thời gian hết hạn : <span><?php echo htmlspecialchars($job['ExpiryDate'] ?? ''); ?></span></li>
                           </ul>
-                         <div class="apply-btn2">
-                            <a href="#" class="btn">Apply Now</a>
-                         </div>
+                          
+                            <div class="apply-btn2">
+
+                                <input type="hidden" name="thongtinuserID" value="<?php echo htmlspecialchars($job['JobID'] ?? '') ?>"> <!-- UserID của người dùng -->
+                                <input type="hidden" name="thongtinjobID" value="<?php echo htmlspecialchars($job['Location'] ?? '') ?>"> <!-- JobID của công việc -->
+                                <a href="index.php?act=aplly&jobid=<?php echo htmlspecialchars($job['JobID'] ?? '') ?> " class="btn">Apply Now</a>
+                            </div>
+
                        </div>
                         <div class="post-details4  mb-50">
                             <!-- Small Section Tittle -->
                            <div class="small-section-tittle">
-                               <h4>Company Information</h4>
+                               <h4>thông tin công ty</h4>
                            </div>
-                              <span>Colorlib</span>
-                              <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
+                              <span>mô tả</span>
+                              <p><?php echo htmlspecialchars($job['Description'] ?? ''); ?></p>
                             <ul>
-                                <li>Name: <span>Colorlib </span></li>
-                                <li>Web : <span> colorlib.com</span></li>
-                                <li>Email: <span>carrier.colorlib@gmail.com</span></li>
+                                <li>tên : <span><?php echo htmlspecialchars($job['CompanyName'] ?? ''); ?> </span></li>
+                                <li>Web : <span> <?php echo htmlspecialchars($job['WebsiteURL'] ?? ''); ?> </span></li>
+                
                             </ul>
                        </div>
                     </div>
@@ -301,8 +258,7 @@
                          <div class="col-xl-10 col-lg-10 ">
                              <div class="footer-copy-right">
                                  <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+ <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
                              </div>
                          </div>
                          <div class="col-xl-2 col-lg-2">

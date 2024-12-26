@@ -5483,6 +5483,8 @@ form.search-box .search-form a {
   float: left;
   margin-right: 32px;
   z-index: 999;
+  width: 70px;
+  height: 70px;
 }
 @media (max-width: 767px) {
   .single-job-items .job-tittle {
