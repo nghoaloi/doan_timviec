@@ -142,7 +142,7 @@
             <input type="submit" class="btn btn-success" style="width: 100%;" name="login" value="Đăng nhập">
         </div>
         <p class="text-center mt-2">
-            Bạn chưa có tài khoản? <a href="index?act=register_nguoitim" >Đăng ký</a>
+            Bạn chưa có tài khoản? <a href="register_nguoitim.php" >Đăng ký</a>
         </p>
         
       </form>
