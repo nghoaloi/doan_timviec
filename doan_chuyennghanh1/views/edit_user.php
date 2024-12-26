@@ -19,7 +19,7 @@ if (isset($user)) {
     <h2 class="text-center mb-4">Chỉnh sửa thông tin người dùng</h2>
     <div class="row">
         <div class="col-md-8 offset-md-2">
-            <form action="index.php?act=user_update" method="post" enctype="multipart/form-data" class="card p-4">
+            <form action="index.php?act=user_update" method="post" enctype="multipart/form-data" class="card p-4" onsubmit="return validateForm()">
                 <input type="hidden" name="userid" value="<?php echo $userID; ?>">
                 <input type="hidden" name="currentPassword" value="<?php echo $user['PasswordHash']; ?>">
                 <input type="hidden" name="currentProfilePictureURL" value="<?php echo $profilePictureURL; ?>">
@@ -51,7 +51,7 @@ if (isset($user)) {
                     <label for="profilePictureURL" class="form-label">Hình đại diện:</label>
                     <div class="d-flex align-items-center">
                         <?php if (!empty($profilePictureURL)): ?>
-                            <img id="profilePicturePreview" src="uploads/<?php echo $profilePictureURL; ?>" alt="avatar" width="100" height="100" class="rounded-circle me-3">
+                            <img id="profilePicturePreview" src="uploads/profile_pictures/<?php echo $profilePictureURL; ?>" alt="avatar" width="100" height="100" class="rounded-circle me-3">
                         <?php else: ?>
                             <img id="profilePicturePreview" src="https://via.placeholder.com/100" alt="avatar" width="100" height="100" class="rounded-circle me-3">
                         <?php endif; ?>
@@ -119,6 +119,7 @@ async function validateForm() {
 document.getElementById('changePictureButton').addEventListener('click', function () {
     document.getElementById('profilePictureInput').click(); // Mở cửa sổ chọn tệp
 });
+
 document.getElementById('profilePictureInput').addEventListener('change', function () {
     const file = this.files[0];
     if (file) {

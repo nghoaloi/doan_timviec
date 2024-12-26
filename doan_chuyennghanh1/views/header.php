@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="assets/css/slick.css" />
     <link rel="stylesheet" href="assets/css/nice-select.css" />
     <link rel="stylesheet" href="assets/css/style.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
   </head>
   <body>
     <!-- Preloader Start -->
@@ -43,7 +44,7 @@
     <header>
       <!-- Header Start -->
       <div class="header-area header-transparrent">
-        <div class="headder-top header-sticky">
+        <div class="headder-top ">  <!-- header-sticky -->
           <div class="container">
             <div class="row align-items-center">
               <div class="col-lg-3 col-md-2">
@@ -69,11 +70,31 @@
                         <li><a href="index.php?act=user">Danh sách tài khoản</a></li>
                         <li><a href="index.php?act=company">Danh sách công ty </a></li>
                         <li><a href="index.php?act=job">Danh sách công việc</a></li>
+                        <li><a href="index.php?act=review">Đánh giá</a></li>
+                        <li class="nav-item dropdown">
+  <a class="nav-link dropdown-toggle" href="#" id="statisticsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Thống kê
+  </a>
+  <ul class="dropdown-menu" aria-labelledby="statisticsDropdown">
+    <li><a class="dropdown-item" href="index.php?act=appliedUsers">Người dùng đã ứng tuyển</a></li>
+    <li><a class="dropdown-item" href="index.php?act=popularJobs">Công việc nhiều người ứng tuyển</a></li>
+    <li><a class="dropdown-item" href="index.php?act=pendingJobs">Công việc nhiều người đang chờ ứng tuyển</a></li>
+  </ul>
+</li>
                         <?php
-                          $ten = isset($_SESSION['FullName']) ? $_SESSION['FullName'] : '';
-                          echo '<li><a href="index.php?act=userinfo">'.$ten.'</a></li>
-                        <li><a href="index.php?act=thoat">Đăng xuất</a></li>';
-                        ?>  
+$ten = isset($_SESSION['FullName']) ? $_SESSION['FullName'] : '';
+echo '
+<li class="nav-item dropdown">
+  <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    '.$ten.'
+  </a>
+  <ul class="dropdown-menu" aria-labelledby="userDropdown">
+    <li><a class="dropdown-item" href="index.php?act=userinfo">Thông tin cá nhân</a></li>
+    <li><a class="dropdown-item" href="index.php?act=thoat">Đăng xuất</a></li>
+  </ul>
+</li>';
+?>
+
                       </ul>
                                           
                       </nav>

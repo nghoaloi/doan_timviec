@@ -15,6 +15,7 @@
         if (password_verify($pass, $user['PasswordHash'])){
         $_SESSION['UserType'] = $user['UserType'];
         $_SESSION['FullName'] = $user['FullName']; // Lưu tên người dùng vào session
+        $_SESSION['ProfilePictureURL']=$user['ProfilePictureURL'];
         $_SESSION['UserID']= $user['UserID'];
         $_SESSION['UserStatus']= $user['UserStatus'];
         $_SESSION['ProfilePictureURL']= $user['ProfilePictureURL'];   

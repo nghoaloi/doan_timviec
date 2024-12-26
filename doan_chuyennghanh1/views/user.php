@@ -56,76 +56,76 @@
                                 <label for="profilePictureURL" class="form-label">Hình đại diện:</label>
                                 <input type="file" name="profilePictureURL" id="profilePictureURL" class="form-control">
                             </div>
-                            <button type="submit" name="adduser" class="btn btn-primary w-100">Thêm mới</button>
+                            <input type="submit" name="adduser" class="btn btn-primary w-100" value="Thêm mới"/>
                         </form>
                     </div>
                 </div>
             </div>
 
             <!-- Danh sách người dùng -->
-<div class="col-lg-8">
-    <div class="card shadow-sm">
-        <div class="card-header bg-dark text-white">
-            <h5 class="card-title mb-0">Danh Sách Người Dùng</h5>
-        </div>
-        <div class="card-body" style="height: 600px; overflow-y: auto;">
-            <div class="table-responsive">
-                <table class="table table-striped table-hover">
-                    <thead class="table-dark">
-                        <tr>
-                            <th scope="col">STT</th>
-                            <th scope="col">Họ và tên</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Số điện thoại</th>
-                            <th scope="col">Loại tài khoản</th>
-                            <th scope="col">Trạng thái</th>
-                            <th scope="col">Hành động</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        // Giả sử hàm getUsers() trả về danh sách người dùng
-                        $users = getUsers();
+            <div class="col-lg-8">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-dark text-white">
+                        <h5 class="card-title mb-0">Danh Sách Người Dùng</h5>
+                    </div>
+                    <div class="card-body" style="height: 600px; overflow-y: auto;">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th scope="col">STT</th>
+                                        <th scope="col">Họ và tên</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Số điện thoại</th>
+                                        <th scope="col">Loại tài khoản</th>
+                                        <th scope="col">Trạng thái</th>
+                                        <th scope="col">Hành động</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    // Giả sử hàm getUsers() trả về danh sách người dùng
+                                    $users = getUsers();
 
-                        if (isset($users) && count($users) > 0) {
-                            $i = 1;
-                            foreach ($users as $user) {
-                                // Xử lý URL hình đại diện, đảm bảo giá trị không bị null hoặc lỗi
-                                $profilePicture = isset($user['ProfilePictureURL']) && !empty($user['ProfilePictureURL']) 
-                                    ? 'uploads/' . htmlspecialchars($user['ProfilePictureURL']) 
-                                    : 'https://via.placeholder.com/30';
+                                    if (isset($users) && count($users) > 0) {
+                                        $i = 1;
+                                        foreach ($users as $user) {
+                                            // Xử lý URL hình đại diện, đảm bảo giá trị không bị null hoặc lỗi
+                                            $profilePicture = isset($user['ProfilePictureURL']) && !empty($user['ProfilePictureURL']) 
+                                                ? 'uploads/profile_pictures/' . htmlspecialchars($user['ProfilePictureURL']) 
+                                                : 'https://via.placeholder.com/30';
 
-                                // Hiển thị từng người dùng
-                                echo '<tr>
-                                        <th scope="row">' . $i . '</th>
-                                        <td>
-                                            <img src="' . $profilePicture . '" alt="avatar" width="30" height="30" class="rounded-circle me-2"> 
-                                            ' . htmlspecialchars($user['FullName'] ?? 'Không có tên') . '
-                                        </td>
-                                        <td>' . htmlspecialchars($user['Email'] ?? 'Không có email') . '</td>
-                                        <td>' . htmlspecialchars($user['PhoneNumber'] ?? 'Không có số điện thoại') . '</td>
-                                        <td>' . htmlspecialchars($user['UserType'] ?? 'Không xác định') . '</td>
-                                        <td>' . htmlspecialchars($user['UserStatus'] ?? 'Không xác định') . '</td>
-                                        <td>
-                                            <a href="index.php?act=editform_user&id=' . htmlspecialchars($user['UserID']) . '" 
-                                               class="btn btn-warning btn-sm">Sửa</a> 
-                                            <a href="index.php?act=del_user&id=' . htmlspecialchars($user['UserID']) . '" 
-                                               class="btn btn-danger btn-sm" 
-                                               onclick="return confirm(\'Bạn có chắc chắn muốn xóa người dùng này không?\')">Xóa</a>
-                                        </td>
-                                    </tr>';
-                                $i++;
-                            }
-                        } else {
-                            echo '<tr><td colspan="7" class="text-center">Không có người dùng nào.</td></tr>';
-                        }
-                        ?>
-                    </tbody>
-                </table>
+                                            // Hiển thị từng người dùng
+                                            echo '<tr>
+                                                    <th scope="row">' . $i . '</th>
+                                                    <td>
+                                                        <img src="' . $profilePicture . '" alt="avatar" width="30" height="30" class="rounded-circle me-2"> 
+                                                        ' . htmlspecialchars($user['FullName'] ?? 'Không có tên') . '
+                                                    </td>
+                                                    <td>' . htmlspecialchars($user['Email'] ?? 'Không có email') . '</td>
+                                                    <td>' . htmlspecialchars($user['PhoneNumber'] ?? 'Không có số điện thoại') . '</td>
+                                                    <td>' . htmlspecialchars($user['UserType'] ?? 'Không xác định') . '</td>
+                                                    <td>' . htmlspecialchars($user['UserStatus'] ?? 'Không xác định') . '</td>
+                                                    <td>
+                                                        <a href="index.php?act=editform_user&id=' . htmlspecialchars($user['UserID']) . '" 
+                                                           class="btn btn-warning btn-sm">Sửa</a> 
+                                                        <a href="index.php?act=del_user&id=' . htmlspecialchars($user['UserID']) . '" 
+                                                           class="btn btn-danger btn-sm" 
+                                                           onclick="return confirm(\'Bạn có chắc chắn muốn xóa người dùng này không?\')">Xóa</a>
+                                                    </td>
+                                                </tr>';
+                                            $i++;
+                                        }
+                                    } else {
+                                        echo '<tr><td colspan="7" class="text-center">Không có người dùng nào.</td></tr>';
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-</div>
 
         </div>
     </div>
@@ -140,8 +140,8 @@ async function checkEmailExists(email) {
         },
         body: 'email=' + encodeURIComponent(email),
     });
-    const result = await response.json();
-    return result.exists; // API trả về { exists: true/false }
+    const result = await response.text();
+    return result === 'exists';
 }
 
 async function validateForm() {
