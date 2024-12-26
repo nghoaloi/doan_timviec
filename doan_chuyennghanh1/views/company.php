@@ -65,7 +65,7 @@
                                 <textarea name="description" id="description" class="form-control" rows="3"></textarea>
                             </div>
 
-                            <button type="submit" name="addCompany" class="btn btn-primary w-100">Thêm mới</button>
+                            <input type="submit" name="addCompany" class="btn btn-primary w-100" value="Thêm mới"/>
                         </form>
                     </div>
                 </div>
