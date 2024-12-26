@@ -223,7 +223,7 @@ function updateUser_foruser($email,$hashed_password,$fullname,$phone,$profilePic
         $stmt->execute();
         $hashed_password = $stmt->fetchColumn();
     }
-
+}
 function getUserByID($UserID) {
     $conn = connectdb();
     $stmt = $conn->prepare("SELECT * FROM users WHERE UserID = :UserID");
