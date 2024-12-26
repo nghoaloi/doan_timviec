@@ -2,7 +2,7 @@
     
     $jobid = $_GET['jobid']??"";
     $job = getJobByID($jobid);  
-    
+
 ?>
 <!doctype php>
 <php class="no-js" lang="zxx">
@@ -22,7 +22,7 @@
                         <div class="single-job-items mb-50">
                             <div class="job-items">
                                 <div class="company-img company-img-details">
-                                    <a href="#"><img src="uploads/<?php echo htmlspecialchars($job['LogoURL'] ??'');?>" alt=""></a>
+                                    <a href="index.php?act=job_thongtin&jobid='<?php echo htmlspecialchars($job['JobID']) ?>"><img src="uploads/<?php echo htmlspecialchars($job['LogoURL'] ??'');?>" alt=""></a>
                                 </div>
                                 <div class="job-tittle">
                                     <a href="#">
@@ -55,6 +55,49 @@
                                    <li><?php echo htmlspecialchars($job['Requirements'] ?? ''); ?></li>
                                    
                                </ul>
+                               <br>
+                               <br>
+                               <div class="small-section-tittle">
+                                <?php
+                                $companyid = htmlspecialchars($job['CompanyID']);
+                                $reviews = getCompanyReviews($companyid);
+                                ?>
+                               <h3>Reviews for Company</h3>
+                                    <?php if (count($reviews) > 0): ?>
+                                        <?php foreach ($reviews as $review): ?>
+                                            <div class="review">
+                                                <div class="review-header">
+                                                    <strong><?php echo htmlspecialchars($review['FullName']); ?></strong> - 
+                                                    <span>Rating: <?php echo $review['Rating']; ?>/5</span>
+                                                </div>
+                                                <div class="review-text">
+                                                    <p><?php echo nl2br(htmlspecialchars($review['ReviewText'])); ?></p>
+                                                </div>
+                                                <div class="review-date">
+                                                    <small>Reviewed on: <?php echo date("F j, Y, g:i a", strtotime($review['CreatedAt'])); ?></small>
+                                                </div>
+                                            </div>
+                                        <?php endforeach; ?>
+                                    <?php else: ?>
+                                        <p>No reviews yet for this company.</p>
+                                    <?php endif; ?>
+                                    <form method="POST" action="index.php?act=themreview">
+                                        
+                                        <input type="hidden" name="companyID" value="<?php echo htmlspecialchars($job['CompanyID'] ?? '') ?>">
+                                        <input type="hidden" name="userID" value="<?php echo $_SESSION['UserID']; ?>">
+                                       
+                                        
+
+                                        <label for="rating">Rating (1-5):</label>
+                                        <input type="number" id="rating" name="rating" min="1" max="5" required><br>
+
+                                        <label for="reviewText">Review Text:</label><br>
+                                        <textarea id="reviewText" name="reviewText" required></textarea><br>
+
+                                        <button type="submit">Submit Review</button>
+                                    </form>
+
+                                </div>
                             </div>
                         
                         </div>
@@ -74,10 +117,14 @@
                               <li>Salary :  <span><?php echo htmlspecialchars($job['SalaryRange'] ?? ''); ?></span></li>
                               <li>thời gian hết hạn : <span><?php echo htmlspecialchars($job['ExpiryDate'] ?? ''); ?></span></li>
                           </ul>
-                         <div class="apply-btn2">
-                            <a href="#" class="btn">Apply Now</a>
+                          
+                            <div class="apply-btn2">
 
-                         </div>
+                                <input type="hidden" name="thongtinuserID" value="<?php echo htmlspecialchars($job['JobID'] ?? '') ?>"> <!-- UserID của người dùng -->
+                                <input type="hidden" name="thongtinjobID" value="<?php echo htmlspecialchars($job['Location'] ?? '') ?>"> <!-- JobID của công việc -->
+                                <a href="index.php?act=aplly&jobid=<?php echo htmlspecialchars($job['JobID'] ?? '') ?> " class="btn">Apply Now</a>
+                            </div>
+
                        </div>
                         <div class="post-details4  mb-50">
                             <!-- Small Section Tittle -->
@@ -211,8 +258,7 @@
                          <div class="col-xl-10 col-lg-10 ">
                              <div class="footer-copy-right">
                                  <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+ <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
                              </div>
                          </div>
                          <div class="col-xl-2 col-lg-2">

@@ -200,7 +200,7 @@
                                         echo '<div class="single-job-items mb-30">
                                                 <div class="job-items">
                                                     <div class="company-img" >
-                                                        <a href=""  ><img src="uploads/' . htmlspecialchars($job['LogoURL']) . ' " alt=""></a>
+                                                        <a href="index.php?act=job_thongtin&jobid='. htmlspecialchars($job['JobID']) .'"  ><img src="uploads/' . htmlspecialchars($job['LogoURL']) . ' " alt=""></a>
                                                     </div>
 
                                                     <div class="job-tittle job-tittle2">

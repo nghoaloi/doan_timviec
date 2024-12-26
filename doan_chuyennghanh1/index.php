@@ -516,6 +516,26 @@
                     $_SESSION['JobID'] = $_GET['jobid'];
                     include "views/job_thongtin_can.php";
                     break;
+                case 'aplly':
+
+                    $thongtinuserID =  $_SESSION['UserID'];
+                    $thongtinjob = $_GET['jobid'];
+                    
+                    savejob($thongtinuserID,$thongtinjob);
+                    break;
+                case 'themreview':
+                    $companyID = $_POST['companyID']; // Mã công ty
+                    $userID = $_POST['userID']; // Mã người dùng
+                    $rating = $_POST['rating']; // Đánh giá từ 1 đến 5
+                    $reviewText = $_POST['reviewText']; // Nội dung đánh giá
+                    if (addReview($companyID, $userID, $rating, $reviewText)) {
+                        // Nếu thêm thành công
+                        echo "Review đã được thêm thành công!";
+                    } else {
+                        // Nếu có lỗi xảy ra
+                        echo "Không thể thêm review!";
+                    }
+                    break;
                 case 'updateuser_foruser':
                     if (isset($_POST['updateuser_foruser']) && ($_POST['updateuser_foruser'])) {
                         // Lấy dữ liệu từ form
