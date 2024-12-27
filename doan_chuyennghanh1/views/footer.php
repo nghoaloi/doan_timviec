@@ -1,4 +1,4 @@
-<footer>
+    <footer>
         <!-- Footer Start-->
         <div class="footer-area footer-bg footer-padding py-2">
             <div class="container">
@@ -141,5 +141,4 @@
     <script src="./assets/js/plugins.js"></script>
     <script src="./assets/js/main.js"></script>
     
-  </body>
-</php>
+</html>
